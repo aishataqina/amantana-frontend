@@ -28,6 +28,7 @@ const App: React.FC = () => {
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerTitleAlign: 'center',
                 headerShadowVisible: false,
               }}
             />
@@ -43,6 +44,7 @@ const App: React.FC = () => {
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerTitleAlign: 'center',
                 headerShadowVisible: false,
               }}
             />

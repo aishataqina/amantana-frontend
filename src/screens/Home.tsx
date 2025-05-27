@@ -3,7 +3,6 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   FlatList,
   Image,
   TouchableOpacity,
@@ -11,85 +10,82 @@ import {
 } from 'react-native';
 import {plants} from '../data/plants';
 import {HomeScreenProps} from '../types/plant.types';
+import {ScrollView} from 'react-native-gesture-handler';
+
+const windowWidth = Dimensions.get('window').width;
+const cardWidth = (windowWidth - 48) / 2;
+
+const cardShadow = {
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.15,
+  shadowRadius: 2.5,
+  elevation: 2,
+};
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
-    <View style={styles.container}>
-      {/* <Text style={styles.header}>Tanaman Hias</Text> */}
-      <FlatList
-        data={plants}
-        numColumns={2}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate('Detail', {plant: item})}>
-            <Image
-              source={{uri: item.image}}
-              style={styles.image}
-              resizeMode="cover"
-            />
-            <View style={styles.cardContent}>
-              <Text
-                // style={styles.plantName}
-                className="font-bold text-purple-400">
-                {item.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
+    <ScrollView>
+      <View className="flex-1 bg-gray-50">
+        <FlatList
+          data={plants}
+          numColumns={2}
+          keyExtractor={item => item.id}
+          className="p-3"
+          renderItem={({item}) => (
+            <TouchableOpacity
+              className="bg-white m-2 overflow-hidden rounded-3xl"
+              style={[{width: cardWidth}, cardShadow]}
+              onPress={() => navigation.navigate('Detail', {plant: item})}>
+              {/* Category Badge */}
+              <View
+                className="absolute top-2 right-2 z-10 bg-white/80 px-2 py-1 rounded-xl"
+                style={cardShadow}>
+                <Text className="text-xs text-green-700 font-medium">
+                  {item.category}
+                </Text>
+              </View>
+
+              {/* Image Container */}
+              <View className="w-full bg-gray-50/50 rounded-t-3xl overflow-hidden">
+                <Image
+                  source={{uri: item.image}}
+                  className="w-full h-[160px]"
+                  resizeMode="cover"
+                />
+              </View>
+
+              {/* Content */}
+              <View className="py-2 px-3">
+                <Text className="text-base font-bold text-gray-800">
+                  {item.name}
+                </Text>
+
+                {/* Difficulty Level */}
+                <View className="flex-row items-center mt-1">
+                  <View
+                    className={`w-2 h-2 rounded-full mr-2 ${
+                      item.difficulty === 'Mudah'
+                        ? 'bg-green-500 rounded-full'
+                        : item.difficulty === 'Sedang'
+                        ? 'bg-yellow-500 rounded-full'
+                        : 'bg-red-500 rounded-full'
+                    }`}
+                  />
+                  <Text className="text-xs text-gray-500">
+                    {item.difficulty}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    </ScrollView>
   );
 };
-
-const windowWidth = Dimensions.get('window').width;
-const cardWidth = (windowWidth - 45) / 2;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    padding: 15,
-    color: '#2D3436',
-  },
-  listContainer: {
-    padding: 8,
-  },
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 15,
-    margin: 7.5,
-    width: cardWidth,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  image: {
-    width: '100%',
-    height: 150,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-  },
-  cardContent: {
-    padding: 10,
-  },
-  plantName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2D3436',
-    textAlign: 'center',
-  },
-});
 
 export default HomeScreen;

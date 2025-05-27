@@ -1,136 +1,108 @@
 // src/screens/Detail.tsx
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {DetailScreenProps} from '../types/plant.types';
+
+const cardShadow = {
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 1,
+  },
+  shadowOpacity: 0.15,
+  shadowRadius: 2.5,
+  elevation: 2,
+};
 
 const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
   const {plant} = route.params;
 
   return (
-    <ScrollView style={styles.container}>
-      <Image
-        source={{uri: plant.image}}
-        style={styles.image}
-        resizeMode="cover"
-      />
-
-      <View style={styles.content}>
-        <Text style={styles.title}>{plant.name}</Text>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Deskripsi</Text>
-          <Text style={styles.description}>{plant.description}</Text>
+    <View className="flex-1 bg-[#F0FFF4]">
+      <ScrollView className="flex-1 px-5">
+        {/* Image Container */}
+        <View className="mt-4 py-4 rounded-3xl items-center">
+          <Image
+            source={{uri: plant.image}}
+            className="w-[200px] h-[200px] rounded-2xl"
+            resizeMode="cover"
+            style={cardShadow}
+          />
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Manfaat</Text>
+        {/* Plant Name & Category */}
+        <View className="items-center mt-6">
+          <Text className="text-[#2D6A4F] text-2xl font-bold">
+            {plant.name}
+          </Text>
+          <View className="bg-[#D8F3DC] px-4 py-1 rounded-full mt-2">
+            <Text className="text-[#2D6A4F]">{plant.category} Plant</Text>
+          </View>
+        </View>
+
+        {/* Manfaat Section */}
+        <View className="bg-white rounded-3xl mt-6 p-5" style={cardShadow}>
+          <View className="flex-row items-center mb-3">
+            <Text className="text-[#2D6A4F] text-lg font-semibold">
+              🌿 Manfaat
+            </Text>
+          </View>
           {plant.benefits.map((benefit, index) => (
-            <View key={index} style={styles.benefitItem}>
-              <Text style={styles.bullet}>•</Text>
-              <Text style={styles.benefitText}>{benefit}</Text>
+            <View key={index} className="mb-2">
+              <Text className="text-gray-700">• {benefit}</Text>
             </View>
           ))}
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Cara Perawatan</Text>
-
-          <View style={styles.careItem}>
-            <Text style={styles.careTitle}>Penyiraman:</Text>
-            <Text style={styles.careText}>{plant.care.watering}</Text>
+        {/* Cara Perawatan Section */}
+        <View className="bg-white rounded-3xl mt-4 mb-6 p-5" style={cardShadow}>
+          <View className="flex-row items-center mb-3">
+            <Text className="text-[#2D6A4F] text-lg font-semibold">
+              🪴 Cara Perawatan
+            </Text>
           </View>
-
-          <View style={styles.careItem}>
-            <Text style={styles.careTitle}>Cahaya:</Text>
-            <Text style={styles.careText}>{plant.care.sunlight}</Text>
-          </View>
-
-          <View style={styles.careItem}>
-            <Text style={styles.careTitle}>Suhu:</Text>
-            <Text style={styles.careText}>{plant.care.temperature}</Text>
-          </View>
-
-          <View style={styles.careItem}>
-            <Text style={styles.careTitle}>Media Tanam:</Text>
-            <Text style={styles.careText}>{plant.care.soil}</Text>
+          <View>
+            <View className="flex-col">
+              <Text className="text-gray-700 font-bold mb-1">Penyiraman:</Text>
+              <Text className="text-gray-700 font-normal mb-2">
+                {plant.care.watering}
+              </Text>
+            </View>
+            <View className="flex-col">
+              <Text className="text-gray-700 font-bold mb-1">Cahaya:</Text>
+              <Text className="text-gray-700 font-normal mb-2">
+                {plant.care.sunlight}
+              </Text>
+            </View>
+            <View className="flex-col">
+              <Text className="text-gray-700 font-bold mb-1">Suhu:</Text>
+              <Text className="text-gray-700 font-normal mb-2">
+                {plant.care.temperature}
+              </Text>
+            </View>
+            <View className="flex-col">
+              <Text className="text-gray-700 font-bold mb-1">Media Tanam:</Text>
+              <Text className="text-gray-700 font-normal mb-2">
+                {plant.care.soil}
+              </Text>
+            </View>
           </View>
         </View>
+      </ScrollView>
+
+      {/* Favorite Button */}
+      <View className="px-5 pb-6">
+        <TouchableOpacity
+          className="bg-[#2D6A4F] rounded-xl py-4"
+          style={cardShadow}
+          activeOpacity={0.8}>
+          <Text className="text-white text-center font-semibold">
+            ♥ Tambahkan ke Favorit
+          </Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  image: {
-    width: Dimensions.get('window').width - 32,
-    height: 200,
-    borderRadius: 24,
-    marginHorizontal: 16,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  content: {
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2D3436',
-    marginBottom: 20,
-  },
-  section: {
-    marginBottom: 25,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#2D3436',
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    color: '#636E72',
-    lineHeight: 24,
-  },
-  benefitItem: {
-    flexDirection: 'row',
-    marginBottom: 8,
-    paddingLeft: 5,
-  },
-  bullet: {
-    fontSize: 16,
-    marginRight: 10,
-    color: '#00B894',
-  },
-  benefitText: {
-    fontSize: 16,
-    color: '#636E72',
-    flex: 1,
-  },
-  careItem: {
-    marginBottom: 12,
-  },
-  careTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2D3436',
-    marginBottom: 4,
-  },
-  careText: {
-    fontSize: 16,
-    color: '#636E72',
-  },
-});
 
 export default DetailScreen;

@@ -6,6 +6,8 @@ export const plants: Plant[] = [
     id: '1',
     name: 'Monstera Deliciosa',
     image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=800',
+    category: 'Indoor',
+    difficulty: 'Mudah',
     description: 'Monstera deliciosa adalah tanaman hias tropis yang populer dengan daunnya yang besar dan berlubang unik.',
     benefits: [
       'Menyaring udara dalam ruangan',
@@ -24,6 +26,8 @@ export const plants: Plant[] = [
     id: '2',
     name: 'Snake Plant',
     image: 'https://images.squarespace-cdn.com/content/v1/54fbb611e4b0d7c1e151d22a/1610074066643-OP8HDJUWUH8T5MHN879K/Snake+Plant.jpg?format=1000w',
+    category: 'Indoor',
+    difficulty: 'Mudah',
     description: 'Snake Plant atau Lidah Mertua adalah tanaman yang sangat tangguh dan pembersih udara alami.',
     benefits: [
       'Menyerap racun dari udara',
@@ -42,6 +46,8 @@ export const plants: Plant[] = [
     id: '3',
     name: 'Philodendron Pink Princess',
     image: 'https://www.beardsanddaisies.co.uk/cdn/shop/products/Beards-Daises-27.9.220162copy_900x.jpg?v=1664960440',
+    category: 'Indoor',
+    difficulty: 'Sedang',
     description: 'Philodendron Pink Princess terkenal dengan daunnya yang memiliki variegasi merah muda yang cantik.',
     benefits: [
       'Menambah nilai estetika ruangan',
@@ -60,6 +66,8 @@ export const plants: Plant[] = [
     id: '4',
     name: 'Calathea Orbifolia',
     image: 'https://www.thespruce.com/thmb/DizsBW_GJ0-8NE8FI-qg2UPYfiw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/calathea-orbifolia-growing-guide-5270824-hero-2a3b8667f05b40a49b27da573d2486fb.jpg',
+    category: 'Indoor',
+    difficulty: 'Sedang',
     description: 'Calathea Orbifolia memiliki daun bundar dengan motif bergaris yang elegan.',
     benefits: [
       'Memperbaiki kualitas udara',
@@ -78,6 +86,8 @@ export const plants: Plant[] = [
     id: '5',
     name: 'Fiddle Leaf Fig',
     image: 'https://www.palasa.co.in/cdn/shop/articles/IMG_20220226_173034_1.jpg?crop=center&height=2048&v=1694161186&width=2048',
+    category: 'Indoor',
+    difficulty: 'Sulit',
     description: 'Fiddle Leaf Fig atau Ficus Lyrata adalah tanaman populer dengan daun besar berbentuk biola.',
     benefits: [
       'Focal point ruangan yang sempurna',
@@ -96,6 +106,8 @@ export const plants: Plant[] = [
     id: '6',
     name: 'ZZ Plant',
     image: 'https://images.unsplash.com/photo-1572688484438-313a6e50c333?w=800',
+    category: 'Indoor',
+    difficulty: 'Mudah',
     description: 'ZZ Plant adalah tanaman yang sangat mudah dirawat dan tahan dalam kondisi minim cahaya.',
     benefits: [
       'Sangat mudah dirawat',
@@ -114,6 +126,8 @@ export const plants: Plant[] = [
     id: '7',
     name: 'String of Pearls',
     image: 'https://cdn.mos.cms.futurecdn.net/aetijUZ6LLsrZA8EvavrVU.jpg',
+    category: 'Indoor',
+    difficulty: 'Sedang',
     description: 'String of Pearls adalah tanaman sukulen merambat dengan daun berbentuk mutiara.',
     benefits: [
       'Cocok untuk hanging basket',
@@ -132,6 +146,8 @@ export const plants: Plant[] = [
     id: '8',
     name: 'Peace Lily',
     image: 'https://asset.kompas.com/crops/w0pNnO9h0MiiDoLrg3E9GxmFAsk=/0x83:1000x750/1200x800/data/photo/2024/01/18/65a9152b26a63.jpg',
+    category: 'Indoor',
+    difficulty: 'Mudah',
     description: 'Peace Lily adalah tanaman dengan bunga putih elegan yang efektif membersihkan udara.',
     benefits: [
       'Menghilangkan racun dari udara',
@@ -150,6 +166,8 @@ export const plants: Plant[] = [
     id: '9',
     name: 'Chinese Evergreen',
     image: 'https://images.unsplash.com/photo-1597305877032-0668b3c6413a?w=800',
+    category: 'Indoor',
+    difficulty: 'Mudah',
     description: 'Chinese Evergreen adalah tanaman yang mudah dirawat dengan daun berpola menarik.',
     benefits: [
       'Tahan berbagai kondisi',
@@ -168,6 +186,8 @@ export const plants: Plant[] = [
     id: '10',
     name: 'Bird of Paradise',
     image: 'https://www.thespruce.com/thmb/-rU-vGiOQ-8jlT8RkHKeN88_lik=/4000x0/filters:no_upscale():max_bytes(150000):strip_icc()/SPR-bird-of-paradise-plants-2132859-hero-83ba0a370f284175a229ce271790e133.jpg',
+    category: 'Outdoor',
+    difficulty: 'Sedang',
     description: 'Bird of Paradise adalah tanaman dengan daun besar dan bunga eksotis yang menawan.',
     benefits: [
       'Memberikan nuansa tropis',

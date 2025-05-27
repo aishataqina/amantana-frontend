@@ -1,8 +1,11 @@
 // src/types/plant.types.ts
+// src/types/plant.types.ts
 export interface Plant {
   id: string;
   name: string;
   image: string;
+  category: 'Indoor' | 'Outdoor' | 'Herbal' | 'Tanaman Hias';
+  difficulty: 'Mudah' | 'Sedang' | 'Sulit';
   description: string;
   benefits: string[];
   care: {
