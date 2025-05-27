@@ -4,86 +4,68 @@ import {
   View,
   Text,
   StyleSheet,
+  FlatList,
+  Image,
   TouchableOpacity,
-  ScrollView,
+  Dimensions,
 } from 'react-native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
-type HomeScreenProps = {
-  navigation: NativeStackNavigationProp<any>;
-};
+import {plants} from '../data/plants';
+import {HomeScreenProps} from '../types/plant.types';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
-    <ScrollView style={styles.container}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Selamat Datang</Text>
-        <Text style={styles.headerSubtitle}>di Aplikasi Kita</Text>
-      </View>
-
-      {/* Menu Section */}
-      <View style={styles.menuContainer}>
-        <TouchableOpacity
-          style={styles.menuItem}
-          onPress={() => navigation.navigate('Detail')}>
-          <Text style={styles.menuText}>Ke Halaman Detail</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Menu 2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Menu 3</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem}>
-          <Text style={styles.menuText}>Menu 4</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Content Section */}
-      <View style={styles.content}>
-        <TouchableOpacity
-          style={styles.detailButton}
-          onPress={() => navigation.navigate('Detail')}>
-          <Text style={styles.detailButtonText}>Lihat Detail</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      {/* <Text style={styles.header}>Tanaman Hias</Text> */}
+      <FlatList
+        data={plants}
+        numColumns={2}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => navigation.navigate('Detail', {plant: item})}>
+            <Image
+              source={{uri: item.image}}
+              style={styles.image}
+              resizeMode="cover"
+            />
+            <View style={styles.cardContent}>
+              <Text
+                // style={styles.plantName}
+                className="font-bold text-purple-400">
+                {item.name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 };
+
+const windowWidth = Dimensions.get('window').width;
+const cardWidth = (windowWidth - 45) / 2;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F5',
   },
   header: {
-    padding: 20,
-    backgroundColor: '#f8f8f8',
-  },
-  headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#666666',
-    marginTop: 5,
-  },
-  menuContainer: {
     padding: 15,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    color: '#2D3436',
   },
-  menuItem: {
-    width: '48%',
-    backgroundColor: '#f0f0f0',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    elevation: 2,
+  listContainer: {
+    padding: 8,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    margin: 7.5,
+    width: cardWidth,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -91,28 +73,22 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    elevation: 5,
   },
-  menuText: {
-    fontSize: 16,
-    color: '#333333',
-    textAlign: 'center',
-  },
-  content: {
-    padding: 20,
-    alignItems: 'center',
-  },
-  detailButton: {
-    backgroundColor: '#FFC0CB',
-    padding: 15,
-    borderRadius: 8,
+  image: {
     width: '100%',
-    marginTop: 20,
+    height: 150,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
-  detailButtonText: {
-    color: '#000000',
-    textAlign: 'center',
+  cardContent: {
+    padding: 10,
+  },
+  plantName: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#2D3436',
+    textAlign: 'center',
   },
 });
 

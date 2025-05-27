@@ -1,59 +1,135 @@
+// src/screens/Detail.tsx
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
+import {DetailScreenProps} from '../types/plant.types';
 
-type DetailScreenProps = {
-  navigation: NativeStackNavigationProp<any>;
-};
+const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
+  const {plant} = route.params;
 
-const DetailScreen: React.FC<DetailScreenProps> = ({navigation}) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Halaman Detail</Text>
-      <Text style={styles.description}>
-        Ini adalah halaman detail yang bisa diisi dengan konten yang diinginkan
-      </Text>
+    <ScrollView style={styles.container}>
+      <Image
+        source={{uri: plant.image}}
+        style={styles.image}
+        resizeMode="cover"
+      />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.buttonText}>Kembali ke Home</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.content}>
+        <Text style={styles.title}>{plant.name}</Text>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Deskripsi</Text>
+          <Text style={styles.description}>{plant.description}</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Manfaat</Text>
+          {plant.benefits.map((benefit, index) => (
+            <View key={index} style={styles.benefitItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.benefitText}>{benefit}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Cara Perawatan</Text>
+
+          <View style={styles.careItem}>
+            <Text style={styles.careTitle}>Penyiraman:</Text>
+            <Text style={styles.careText}>{plant.care.watering}</Text>
+          </View>
+
+          <View style={styles.careItem}>
+            <Text style={styles.careTitle}>Cahaya:</Text>
+            <Text style={styles.careText}>{plant.care.sunlight}</Text>
+          </View>
+
+          <View style={styles.careItem}>
+            <Text style={styles.careTitle}>Suhu:</Text>
+            <Text style={styles.careText}>{plant.care.temperature}</Text>
+          </View>
+
+          <View style={styles.careItem}>
+            <Text style={styles.careTitle}>Media Tanam:</Text>
+            <Text style={styles.careText}>{plant.care.soil}</Text>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  image: {
+    width: Dimensions.get('window').width - 32,
+    height: 200,
+    borderRadius: 24,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  content: {
+    padding: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#2D3436',
     marginBottom: 20,
+  },
+  section: {
+    marginBottom: 25,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#2D3436',
+    marginBottom: 10,
   },
   description: {
     fontSize: 16,
-    color: '#666666',
-    textAlign: 'center',
-    marginBottom: 30,
+    color: '#636E72',
+    lineHeight: 24,
   },
-  button: {
-    backgroundColor: '#FFC0CB',
-    padding: 15,
-    borderRadius: 8,
-    width: '80%',
+  benefitItem: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 5,
   },
-  buttonText: {
-    color: '#000000',
-    textAlign: 'center',
+  bullet: {
+    fontSize: 16,
+    marginRight: 10,
+    color: '#00B894',
+  },
+  benefitText: {
+    fontSize: 16,
+    color: '#636E72',
+    flex: 1,
+  },
+  careItem: {
+    marginBottom: 12,
+  },
+  careTitle: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#2D3436',
+    marginBottom: 4,
+  },
+  careText: {
+    fontSize: 16,
+    color: '#636E72',
   },
 });
 
