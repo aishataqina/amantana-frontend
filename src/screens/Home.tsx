@@ -11,6 +11,7 @@ import {
 import {HomeScreenProps} from '../shared/types/navigation.types';
 import {cardShadow} from '../shared/utils/styles';
 import {usePlantStore} from '../shared/store';
+import {Heart} from 'lucide-react-native';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
@@ -51,19 +52,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               </Text>
             </View>
 
-            {/* Favorite Icon */}
-            <TouchableOpacity
-              className="absolute top-2 left-2 z-10 bg-white/80 p-1 rounded-full"
-              style={cardShadow}
-              onPress={e => {
-                e.stopPropagation(); // Mencegah event ke parent (card press)
-                toggleFavorite(item.id);
-              }}>
-              <Text className="text-sm">
-                {isFavorite(item.id) ? '❤️' : '🤍'}
-              </Text>
-            </TouchableOpacity>
-
             {/* Image Container */}
             <View className="w-full bg-gray-50/50 rounded-t-3xl overflow-hidden">
               <Image
@@ -73,25 +61,48 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               />
             </View>
 
-            {/* Content */}
-            <View className="py-2 px-3">
-              <Text className="text-base font-bold text-gray-800">
-                {item.name}
-              </Text>
+            {/* Description Container */}
+            <View className="flex-row ">
+              {/* Content */}
+              <View className="py-2 px-3">
+                <Text
+                  className="text-base font-bold text-gray-800 pr-8"
+                  numberOfLines={1}>
+                  {item.name}
+                </Text>
 
-              {/* Difficulty Level */}
-              <View className="flex-row items-center mt-1">
-                <View
-                  className={`w-2 h-2 rounded-full mr-2 ${
-                    item.difficulty === 'Mudah'
-                      ? 'bg-green-500 rounded-full'
-                      : item.difficulty === 'Sedang'
-                      ? 'bg-yellow-500 rounded-full'
-                      : 'bg-red-500 rounded-full'
-                  }`}
-                />
-                <Text className="text-xs text-gray-500">{item.difficulty}</Text>
+                {/* Difficulty Level */}
+                <View className="flex-row items-center mt-1">
+                  <View
+                    className={`w-2 h-2 rounded-full mr-2 ${
+                      item.difficulty === 'Mudah'
+                        ? 'bg-green-500 rounded-full'
+                        : item.difficulty === 'Sedang'
+                        ? 'bg-yellow-500 rounded-full'
+                        : 'bg-red-500 rounded-full'
+                    }`}
+                  />
+                  <Text className="text-xs text-gray-500">
+                    {item.difficulty}
+                  </Text>
+                </View>
               </View>
+              {/* Favorite Icon */}
+              <TouchableOpacity
+                className="absolute top-2 right-2 z-10 bg-white/80 p-1 rounded-full"
+                // style={cardShadow}
+                onPress={e => {
+                  e.stopPropagation(); // Mencegah event ke parent (card press)
+                  toggleFavorite(item.id);
+                }}>
+                <Text className="text-sm">
+                  {isFavorite(item.id) ? (
+                    <Heart size={20} color={'#FF0000'} fill={'#FF0000'} />
+                  ) : (
+                    <Heart size={20} />
+                  )}
+                </Text>
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
         )}

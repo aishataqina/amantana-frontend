@@ -11,6 +11,7 @@ import HomeScreen from './src/screens/Home';
 import DetailScreen from './src/screens/Detail';
 import FavoritesScreen from './src/screens/Favorites';
 import {RootStackParamList} from './src/shared/types/navigation.types';
+import {Heart, Home} from 'lucide-react-native';
 
 // Header style
 const headerStyle = {
@@ -25,14 +26,22 @@ const headerStyle = {
 
 // Tab Icons
 const HomeIcon = ({focused}: {focused: boolean}) => (
-  <View className={`p-1 rounded-full ${focused ? 'bg-[#D8F3DC]' : ''}`}>
-    <Text style={{fontSize: 20}}>🏡</Text>
+  <View>
+    <Home
+      size={20}
+      color={focused ? '#2D6A4F' : '#757575'}
+      fill={focused ? '#2D6A4F' : '#757575'}
+    />
   </View>
 );
 
 const FavoritesIcon = ({focused}: {focused: boolean}) => (
-  <View className={`p-1 rounded-full ${focused ? 'bg-[#D8F3DC]' : ''}`}>
-    <Text style={{fontSize: 20}}>❤️</Text>
+  <View>
+    <Heart
+      size={20}
+      color={focused ? '#2D6A4F' : '#757575'}
+      fill={focused ? '#2D6A4F' : '#757575'}
+    />
   </View>
 );
 
