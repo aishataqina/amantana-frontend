@@ -6,10 +6,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import HomeScreen from './src/screens/Home';
 import DetailScreen from './src/screens/Detail';
 import FavoritesScreen from './src/screens/Favorites';
+import SearchResult from './src/screens/SearchResult';
+import AllPlants from './src/screens/AllPlants';
 import {RootStackParamList} from './src/shared/types/navigation.types';
 import {Heart, Home} from 'lucide-react-native';
 
@@ -119,6 +121,20 @@ const App: React.FC = () => {
                 headerTitleStyle: headerStyle.headerTitleStyle,
                 headerTitleAlign: headerStyle.headerTitleAlign,
                 headerShadowVisible: headerStyle.headerShadowVisible,
+              }}
+            />
+            <Stack.Screen
+              name="SearchResult"
+              component={SearchResult}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="AllPlants"
+              component={AllPlants}
+              options={{
+                headerShown: false,
               }}
             />
           </Stack.Navigator>
