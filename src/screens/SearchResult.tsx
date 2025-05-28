@@ -26,7 +26,7 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Plant[]>([]);
-  const {plants} = usePlantStore();
+  const {plants, isFavorite, toggleFavorite} = usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
 
@@ -131,7 +131,13 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
           data={results}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <PlantCard plant={item} onPress={handleItemPress} variant="list" />
+            <PlantCard
+              plant={item}
+              onPress={handleItemPress}
+              variant="list"
+              isFavorite={isFavorite}
+              toggleFavorite={toggleFavorite}
+            />
           )}
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center p-6">

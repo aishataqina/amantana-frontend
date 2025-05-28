@@ -9,17 +9,17 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {usePlantStore} from '../shared/store';
-// import {AllPlantsScreenProps} from '../shared/types/navigation.types';
+import {HomeScreenNavigationProp} from '../shared/types/navigation.types';
 import {ArrowLeft} from 'lucide-react-native';
 import {useTheme} from '../shared/theme/ThemeContext';
 import {getColors} from '../shared/theme/colors';
 import PlantCard from '../shared/components/PlantCard';
 
 const AllPlants: React.FC = () => {
-  const navigation = useNavigation<AllPlantsScreenProps['navigation']>();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
   const [loading, _setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const {plants} = usePlantStore();
+  const {plants, isFavorite, toggleFavorite} = usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
 
@@ -141,6 +141,8 @@ const AllPlants: React.FC = () => {
               plant={item}
               onPress={handleItemPress}
               style={{flex: 1}}
+              isFavorite={isFavorite}
+              toggleFavorite={toggleFavorite}
             />
           )}
           columnWrapperStyle={{
