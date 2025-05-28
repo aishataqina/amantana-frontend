@@ -1,43 +1,53 @@
 // src/shared/components/InfoBanner.tsx
 import React from 'react';
-import {View, Text, Image, ImageSourcePropType} from 'react-native';
+import {View, Text, Image} from 'react-native';
+import {useTheme} from '../theme/ThemeContext';
+import {getColors} from '../theme/colors';
 
-export interface InfoBannerProps {
+interface InfoBannerProps {
   /** Background wrapper color, misal 'bg-green-50' */
-  bgColor?: string;
+  bgColor: string;
   /** Background untuk container image, misal 'bg-green-100' */
-  iconBgColor?: string;
+  iconBgColor: string;
   /** Sumber gambar ikon */
-  imageSource: ImageSourcePropType;
+  imageSource: any;
   /** Judul banner */
   title: string;
   /** Deskripsi teks banner */
   description: string;
+  isDark?: boolean;
 }
 
 export const InfoBanner: React.FC<InfoBannerProps> = ({
-  bgColor = 'bg-green-700',
+  bgColor,
   imageSource,
   title,
   description,
-}) => (
-  <View
-    className={`${bgColor} rounded-xl p-4 flex-row gap-4 mx-4 items-center`}>
-    {/* Image container */}
-    {/* <View className={`${iconBgColor} rounded-lg p-3 mr-4`} style={cardShadow}> */}
-    <Image
-      source={imageSource}
-      className="w-20 h-20 rounded-xl"
-      resizeMode="contain"
-    />
-    {/* </View> */}
+  isDark,
+}) => {
+  const {isDarkMode} = useTheme();
+  const dark = isDark !== undefined ? isDark : isDarkMode;
+  const colors = getColors(dark);
 
-    {/* Text content */}
-    <View className="flex-1">
-      <Text className="text-base font-semibold text-gray-800 mb-1">
-        {title}
-      </Text>
-      <Text className="text-sm text-gray-600">{description}</Text>
+  return (
+    <View className={`mx-4 my-3 rounded-2xl overflow-hidden ${bgColor}`}>
+      <View className="flex-row p-4">
+        <View>
+          <Image
+            source={imageSource}
+            className="w-20 h-20 rounded-xl"
+            resizeMode="cover"
+          />
+        </View>
+        <View className="flex-1 ml-3">
+          <Text className="font-bold text-base" style={{color: colors.text}}>
+            {title}
+          </Text>
+          <Text className="text-sm mt-1" style={{color: colors.textSecondary}}>
+            {description}
+          </Text>
+        </View>
+      </View>
     </View>
-  </View>
-);
+  );
+};

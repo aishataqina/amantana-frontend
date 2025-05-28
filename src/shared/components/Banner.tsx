@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image, Text, ImageSourcePropType} from 'react-native';
-import {cardShadow} from '../utils/styles';
+import {lightShadow} from '../utils/cardShadow';
 
 export interface BannerProps {
   /** Sumber gambar: require(...), uri object, dll. */
@@ -27,7 +27,7 @@ export const Banner: React.FC<BannerProps> = ({
       source={source}
       className="w-full h-[200px] rounded-3xl"
       resizeMode="cover"
-      style={cardShadow}
+      style={lightShadow}
     />
     {showCaption && caption.length > 0 && (
       <View className="absolute bottom-4 left-6 bg-black/50 px-3 py-1 rounded">

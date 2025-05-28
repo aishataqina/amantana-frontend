@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   FlatList,
   ActivityIndicator,
   TextInput,
@@ -13,6 +12,9 @@ import {usePlantStore} from '../shared/store';
 import {SearchResultScreenProps} from '../shared/types/navigation.types';
 import {ArrowLeft, Search, X} from 'lucide-react-native';
 import {Plant} from '../shared/types/plant.types';
+import {useTheme} from '../shared/theme/ThemeContext';
+import {getColors} from '../shared/theme/colors';
+import PlantCard from '../shared/components/PlantCard';
 
 interface RouteParams {
   searchQuery: string;
@@ -25,6 +27,8 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Plant[]>([]);
   const {plants} = usePlantStore();
+  const {isDarkMode} = useTheme();
+  const colors = getColors(isDarkMode);
 
   const handleSearch = useCallback(
     (query: string) => {
@@ -56,94 +60,85 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
     }
   };
 
+  // Dynamic styles
+  const dynamicStyles = {
+    container: {
+      backgroundColor: colors.background,
+    },
+    header: {
+      backgroundColor: isDarkMode ? colors.card : colors.borderLight,
+    },
+    searchContainer: {
+      backgroundColor: colors.card,
+    },
+    card: {
+      backgroundColor: colors.card,
+    },
+    title: {
+      color: colors.text,
+    },
+    subtitle: {
+      color: colors.textSecondary,
+    },
+    categoryBadge: {
+      backgroundColor: isDarkMode
+        ? 'rgba(31, 41, 55, 0.8)'
+        : colors.borderLight,
+    },
+  };
+
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1" style={dynamicStyles.container}>
       {/* Header */}
-      <View className="flex-row items-center bg-gray-100 p-3">
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
-          <ArrowLeft size={24} color="#000" />
-        </TouchableOpacity>
-        <View className="flex-1 bg-white rounded-full px-3 py-1 flex-row items-center">
-          <Search size={20} color="#9CA3AF" />
-          <TextInput
-            className="flex-1 ml-2 text-base"
-            placeholder="Cari tanaman"
-            value={searchQuery}
-            onChangeText={handleSearch}
-            autoFocus={true}
-          />
-          {searchQuery ? (
-            <TouchableOpacity onPress={() => handleSearch('')}>
-              <X size={20} color="#9CA3AF" />
-            </TouchableOpacity>
-          ) : null}
+      <View
+        className="flex-row items-center p-3 justify-between"
+        style={dynamicStyles.header}>
+        <View className="flex-row items-center flex-1">
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className="mr-3">
+            <ArrowLeft size={24} color={colors.text} />
+          </TouchableOpacity>
+          <View
+            className="flex-1 rounded-full px-3 py-1 flex-row items-center"
+            style={dynamicStyles.searchContainer}>
+            <Search size={20} color={colors.textTertiary} />
+            <TextInput
+              className="flex-1 ml-2 text-base"
+              placeholder="Cari tanaman"
+              value={searchQuery}
+              onChangeText={handleSearch}
+              autoFocus={true}
+              style={{color: colors.text}}
+              placeholderTextColor={colors.textTertiary}
+            />
+            {searchQuery ? (
+              <TouchableOpacity onPress={() => handleSearch('')}>
+                <X size={20} color={colors.textTertiary} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
       </View>
-
-      {/* Filters & Sort */}
-      {/* <View className="flex-row justify-between border-b border-gray-200 py-3 px-4">
-        <TouchableOpacity className="flex-row items-center">
-          <Icon name="options-outline" size={18} color="#555" />
-          <Text className="ml-1 text-gray-700 font-medium">Filter</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="flex-row items-center">
-          <Icon name="swap-vertical-outline" size={18} color="#555" />
-          <Text className="ml-1 text-gray-700 font-medium">Urutkan</Text>
-        </TouchableOpacity>
-
-        <Text className="text-gray-500 text-sm">{results.length} hasil</Text>
-      </View> */}
 
       {/* Results */}
       {loading ? (
         <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#77DD77" />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <FlatList
           data={results}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
-            <TouchableOpacity
-              className=" mx-4 my-4 rounded-xl overflow-hidden"
-              // style={cardShadow}
-              onPress={() => handleItemPress(item.id)}>
-              <View className="flex-row">
-                <Image
-                  source={{uri: item.image}}
-                  className="w-[80] h-[80] rounded-xl"
-                  resizeMode="cover"
-                />
-                <View className="flex-1 p-3">
-                  <Text className="font-bold text-base">{item.name}</Text>
-                  {/* <View className="flex-row items-center mt-1">
-                    <Icon name="star" size={16} color="#FFD700" />
-                    <Text className="ml-1 text-gray-600">
-                      {item.rating} • {item.reviews} ulasan
-                    </Text>
-                  </View>
-                  <View className="flex-row items-center mt-1">
-                    <Icon name="location-outline" size={14} color="#777" />
-                    <Text className="ml-1 text-xs text-gray-500">
-                      {item.location}
-                    </Text>
-                  </View> */}
-                </View>
-                <View className="p-3">
-                  <View className="bg-gray-100 px-2 py-1 rounded-md">
-                    <Text className="text-xs text-green-700">
-                      {item.category}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </TouchableOpacity>
+            <PlantCard plant={item} onPress={handleItemPress} variant="list" />
           )}
           ListEmptyComponent={
-            <View className="flex-1 justify-center items-center p-8">
-              <Text className="text-gray-500 text-center mt-4">
-                — Tidak ada lagi hasil —
+            <View className="flex-1 justify-center items-center p-6">
+              <Text
+                className="text-center mt-4"
+                style={{color: colors.textSecondary}}>
+                — Tidak ada hasil ditemukan —
               </Text>
             </View>
           }

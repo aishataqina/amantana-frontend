@@ -6,8 +6,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 export type RootStackParamList = {
   Home: undefined;
   Detail: { plantId: string };
-  SearchResult: { searchQuery: string; showAll?: boolean };
-  AllPlants: undefined;
+  SearchResult: { searchQuery: string };
 };
 
 // Define the param list untuk Tab Navigator
@@ -32,11 +31,6 @@ export type SearchResultScreenNavigationProp = NativeStackNavigationProp<
   'SearchResult'
 >;
 
-export type AllPlantsScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'AllPlants'
->;
-
 // Navigation props untuk Tab Navigator
 export type HomeTabNavigationProp = BottomTabNavigationProp<
   TabParamList,
@@ -51,7 +45,6 @@ export type FavoritesTabNavigationProp = BottomTabNavigationProp<
 // Route props untuk screens
 export type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 export type SearchResultScreenRouteProp = RouteProp<RootStackParamList, 'SearchResult'>;
-export type AllPlantsScreenRouteProp = RouteProp<RootStackParamList, 'AllPlants'>;
 
 // Combined props untuk screens
 export interface HomeScreenProps {
@@ -70,8 +63,4 @@ export interface FavoritesScreenProps {
 export interface SearchResultScreenProps {
   navigation: SearchResultScreenNavigationProp;
   route: SearchResultScreenRouteProp;
-}
-
-export interface AllPlantsScreenProps {
-  navigation: AllPlantsScreenNavigationProp;
 }

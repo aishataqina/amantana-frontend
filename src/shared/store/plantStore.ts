@@ -16,7 +16,7 @@ export const usePlantStore = create<PlantStore>()(
 
       // Mutations
       setSelectedPlant: (plant) => set({ selectedPlant: plant }),
-      
+
       toggleFavorite: (plantId) => {
         const { favorites } = get();
         const isFavorited = favorites.includes(plantId);
@@ -28,18 +28,18 @@ export const usePlantStore = create<PlantStore>()(
           set({ favorites: [...favorites, plantId] });
         }
       },
-      
+
       clearSelectedPlant: () => set({ selectedPlant: null }),
 
       // Derived selectors
       getPlantById: (id) => {
         return get().plants.find(plant => plant.id === id);
       },
-      
+
       isFavorite: (id) => {
         return get().favorites.includes(id);
       },
-      
+
       getAllFavorites: () => {
         const { plants, favorites } = get();
         return plants.filter(plant => favorites.includes(plant.id));
@@ -49,7 +49,7 @@ export const usePlantStore = create<PlantStore>()(
       name: 'amantana-plant-storage',
       storage: createJSONStorage(() => AsyncStorage),
       // Hanya menyimpan favorit di storage, bukan seluruh state
-      partialize: (state) => ({ 
+      partialize: (state) => ({
         favorites: state.favorites,
       }),
     }
