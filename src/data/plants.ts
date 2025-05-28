@@ -1,5 +1,5 @@
     // src/data/plants.ts
-import { Plant } from '../types/plant.types';
+import { Plant } from '../shared/types/plant.types';
 
 export const plants: Plant[] = [
   {

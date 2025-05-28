@@ -1,4 +1,3 @@
-// src/screens/Home.tsx
 import React from 'react';
 import {
   View,
@@ -8,31 +7,51 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {HomeScreenProps} from '../shared/types/navigation.types';
+import {FavoritesScreenProps} from '../shared/types/navigation.types';
 import {cardShadow} from '../shared/utils/styles';
 import {usePlantStore} from '../shared/store';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
 
-const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
+const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
   // Menggunakan Zustand store
-  const {plants, setSelectedPlant, isFavorite, toggleFavorite} =
+  const {getAllFavorites, setSelectedPlant, isFavorite, toggleFavorite} =
     usePlantStore();
 
+  // Mengambil semua tanaman favorit
+  const favoritePlants = getAllFavorites();
+
   const handlePlantPress = (plantId: string) => {
-    const plant = plants.find(p => p.id === plantId);
+    const plant = favoritePlants.find(p => p.id === plantId);
     if (plant) {
       setSelectedPlant(plant);
+      // Karena kita berada di dalam tab navigator, kita perlu menggunakan
+      // navigate ke parent navigator (Stack) untuk ke Detail
       navigation.getParent()?.navigate('Detail', {plantId: plant.id});
     }
   };
 
+  if (favoritePlants.length === 0) {
+    return (
+      <View className="flex-1 bg-gray-50 items-center justify-center p-5">
+        <Text className="text-gray-500 text-lg mb-4">
+          Belum ada tanaman favorit
+        </Text>
+        <TouchableOpacity
+          className="bg-[#2D6A4F] px-6 py-3 rounded-xl"
+          onPress={() => navigation.navigate('HomeTab')}>
+          <Text className="text-white font-semibold">Lihat Semua Tanaman</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-gray-50">
-      {/* Plant List */}
+      {/* Favorite Plants List */}
       <FlatList
-        data={plants}
+        data={favoritePlants}
         numColumns={2}
         keyExtractor={item => item.id}
         className="p-3"
@@ -100,4 +119,4 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   );
 };
 
-export default HomeScreen;
+export default FavoritesScreen;

@@ -1,24 +1,43 @@
 // src/screens/Detail.tsx
-import React from 'react';
-import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
-import {DetailScreenProps} from '../types/plant.types';
-
-const cardShadow = {
-  shadowColor: '#000',
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowOpacity: 0.15,
-  shadowRadius: 2.5,
-  elevation: 2,
-};
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {DetailScreenProps} from '../shared/types/navigation.types';
+import {cardShadow} from '../shared/utils/styles';
+import {usePlantStore} from '../shared/store';
 
 const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
-  const {plant} = route.params;
+  const {plantId} = route.params;
+  const {getPlantById, toggleFavorite, isFavorite, selectedPlant} =
+    usePlantStore();
+
+  // Get plant details from store
+  const plant = selectedPlant || getPlantById(plantId);
+
+  // Cleanup when unmounting
+  useEffect(() => {
+    return () => {
+      usePlantStore.getState().clearSelectedPlant();
+    };
+  }, []);
+
+  if (!plant) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#2D6A4F" />
+        <Text className="mt-4 text-gray-600">Memuat detail tanaman...</Text>
+      </View>
+    );
+  }
 
   return (
-    <View className="flex-1 bg-[#F0FFF4]">
+    <View className="flex-1 bg-gray-50">
       <ScrollView className="flex-1 px-5">
         {/* Image Container */}
         <View className="mt-4 py-4 rounded-3xl items-center">
@@ -40,8 +59,18 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
           </View>
         </View>
 
-        {/* Manfaat Section */}
+        {/* Description Section */}
         <View className="bg-white rounded-3xl mt-6 p-5" style={cardShadow}>
+          <View className="flex-row items-center mb-3">
+            <Text className="text-[#2D6A4F] text-lg font-semibold">
+              📝 Deskripsi
+            </Text>
+          </View>
+          <Text className="text-gray-700">{plant.description}</Text>
+        </View>
+
+        {/* Manfaat Section */}
+        <View className="bg-white rounded-3xl mt-4 p-5" style={cardShadow}>
           <View className="flex-row items-center mb-3">
             <Text className="text-[#2D6A4F] text-lg font-semibold">
               🌿 Manfaat
@@ -93,11 +122,17 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
       {/* Favorite Button */}
       <View className="px-5 pb-6">
         <TouchableOpacity
-          className="bg-[#2D6A4F] rounded-xl py-4"
+          className={`rounded-xl py-4 ${
+            isFavorite(plant.id) ? 'bg-[#D8F3DC]' : 'bg-[#2D6A4F]'
+          }`}
           style={cardShadow}
-          activeOpacity={0.8}>
-          <Text className="text-white text-center font-semibold">
-            ♥ Tambahkan ke Favorit
+          activeOpacity={0.8}
+          onPress={() => toggleFavorite(plant.id)}>
+          <Text
+            className={`text-center font-semibold ${
+              isFavorite(plant.id) ? 'text-[#2D6A4F]' : 'text-white'
+            }`}>
+            {isFavorite(plant.id) ? '❤️ Favorit' : '🤍 Tambahkan ke Favorit'}
           </Text>
         </TouchableOpacity>
       </View>

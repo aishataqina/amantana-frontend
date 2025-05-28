@@ -1,5 +1,3 @@
-// src/types/plant.types.ts
-// src/types/plant.types.ts
 export interface Plant {
   id: string;
   name: string;
@@ -16,15 +14,4 @@ export interface Plant {
   };
 }
 
-export interface HomeScreenProps {
-  navigation: any;
-}
 
-export interface DetailScreenProps {
-  navigation: any;
-  route: {
-    params: {
-      plant: Plant;
-    };
-  };
-}
