@@ -44,17 +44,17 @@ const PlantCard: React.FC<PlantCardProps> = ({
   if (variant === 'list') {
     return (
       <TouchableOpacity
-        className="mx-4 my-4 rounded-xl overflow-hidden"
-        style={[
-          dynamicStyles.card,
-          isDarkMode ? darkShadow : lightShadow,
-          style,
-        ]}
+        className="mx-4 my-2 rounded-xl overflow-hidden"
+        // style={[
+        //   dynamicStyles.card,
+        //   isDarkMode ? darkShadow : lightShadow,
+        //   style,
+        // ]}
         onPress={() => onPress(plant.id)}>
-        <View className="flex-row">
+        <View className="flex-row items-center">
           <Image
             source={{uri: plant.image}}
-            className="w-[80] h-[80] rounded-xl"
+            className="w-[50] h-[50] rounded-xl"
             resizeMode="cover"
           />
           <View className="flex-1 p-3">
