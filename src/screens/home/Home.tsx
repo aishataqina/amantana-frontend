@@ -1,4 +1,4 @@
-// src/screens/Home.tsx
+// src/screens/home/Home.tsx
 import React from 'react';
 import {
   ScrollView,
@@ -7,16 +7,16 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {HomeScreenProps} from '../shared/types/navigation.types';
-import {usePlantStore} from '../shared/store';
+import {HomeScreenProps} from '../../shared/types/navigation.types';
+import {usePlantStore} from '../../shared/store';
 import {ChevronRight} from 'lucide-react-native';
-import SearchBar from '../shared/components/SearchBar';
-import {Banner} from '../shared/components/Banner';
-import {InfoBanner} from '../shared/components/InfoBanner';
-import {useTheme} from '../shared/theme/ThemeContext';
-import {getColors} from '../shared/theme/colors';
-import ThemeToggle from '../shared/components/ThemeToggle';
-import PlantCard from '../shared/components/PlantCard';
+import SearchBar from '../../shared/components/SearchBar';
+import {Banner} from '../../shared/components/Banner';
+import {InfoBanner} from '../../shared/components/InfoBanner';
+import {useTheme} from '../../shared/theme/ThemeContext';
+import {getColors} from '../../shared/theme/colors';
+import ThemeToggle from '../../shared/components/ThemeToggle';
+import PlantCard from '../../shared/components/PlantCard';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
@@ -69,7 +69,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       </View>
 
       {/* Banner utama */}
-      <Banner source={require('../assets/img/banner.jpg')} />
+      <Banner source={require('../../assets/img/banner.jpg')} />
 
       {/* Search Bar */}
       <SearchBar />
@@ -111,7 +111,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       <InfoBanner
         bgColor={isDarkMode ? 'bg-green-900' : 'bg-green-100'}
         iconBgColor={isDarkMode ? 'bg-green-800' : 'bg-green-200'}
-        imageSource={require('../assets/img/banner2.png')}
+        imageSource={require('../../assets/img/banner2.png')}
         title="Tips Perawatan Tanaman"
         description="Siram tanaman secukupnya, tempatkan pada cahaya tidak langsung, dan berikan pupuk alami."
         isDark={isDarkMode}

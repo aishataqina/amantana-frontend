@@ -8,12 +8,12 @@ import {
   ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {usePlantStore} from '../shared/store';
-import {HomeScreenNavigationProp} from '../shared/types/navigation.types';
+import {usePlantStore} from '../../shared/store';
+import {HomeScreenNavigationProp} from '../../shared/types/navigation.types';
 import {ArrowLeft} from 'lucide-react-native';
-import {useTheme} from '../shared/theme/ThemeContext';
-import {getColors} from '../shared/theme/colors';
-import PlantCard from '../shared/components/PlantCard';
+import {useTheme} from '../../shared/theme/ThemeContext';
+import {getColors} from '../../shared/theme/colors';
+import PlantCard from '../../shared/components/PlantCard';
 
 const AllPlants: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();

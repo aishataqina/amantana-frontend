@@ -1,11 +1,10 @@
 import React from 'react';
 import {View, Text, FlatList, TouchableOpacity, Dimensions} from 'react-native';
-import {FavoritesScreenProps} from '../shared/types/navigation.types';
-import {usePlantStore} from '../shared/store';
-import {useTheme} from '../shared/theme/ThemeContext';
-import {getColors} from '../shared/theme/colors';
-import PlantCard from '../shared/components/PlantCard';
-// import ThemeToggle from '../shared/components/ThemeToggle';
+import type {FavoritesScreenProps} from '@/shared/types/navigation.types';
+import {usePlantStore} from '@/shared/store';
+import {useTheme} from '@/shared/theme/ThemeContext';
+import {getColors} from '@/shared/theme/colors';
+import PlantCard from '@/shared/components/PlantCard';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;

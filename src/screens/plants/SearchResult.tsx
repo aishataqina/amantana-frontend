@@ -8,13 +8,13 @@ import {
   TextInput,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {usePlantStore} from '../shared/store';
-import {SearchResultScreenProps} from '../shared/types/navigation.types';
+import {usePlantStore} from '@/shared/store';
+import type {SearchResultScreenProps} from '@/shared/types/navigation.types';
 import {ArrowLeft, Search, X} from 'lucide-react-native';
-import {Plant} from '../shared/types/plant.types';
-import {useTheme} from '../shared/theme/ThemeContext';
-import {getColors} from '../shared/theme/colors';
-import PlantCard from '../shared/components/PlantCard';
+import type {Plant} from '@/shared/types/plant.types';
+import {useTheme} from '@/shared/theme/ThemeContext';
+import {getColors} from '@/shared/theme/colors';
+import PlantCard from '@/shared/components/PlantCard';
 
 interface RouteParams {
   searchQuery: string;

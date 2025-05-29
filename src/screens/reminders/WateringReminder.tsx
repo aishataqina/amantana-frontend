@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, ScrollView, Switch} from 'react-native';
-import {useTheme} from '../shared/theme/ThemeContext';
-import {getColors} from '../shared/theme/colors';
-import {useNotification} from '../shared/hooks/useNotification';
+import {useTheme} from '@/shared/theme/ThemeContext';
+import {getColors} from '@/shared/theme/colors';
+import {useNotification} from '@/shared/hooks/useNotification';
 
 function WateringReminder() {
   const {isDarkMode} = useTheme();

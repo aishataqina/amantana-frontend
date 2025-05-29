@@ -1,4 +1,4 @@
-// src/screens/Detail.tsx
+// src/screens/plants/Detail.tsx
 import React, {useEffect} from 'react';
 import {
   View,
@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {DetailScreenProps} from '../shared/types/navigation.types';
-import {lightShadow} from '../shared/utils/cardShadow';
-import {usePlantStore} from '../shared/store';
+import type {DetailScreenProps} from '@/shared/types/navigation.types';
+import {lightShadow} from '@/shared/utils/cardShadow';
+import {usePlantStore} from '@/shared/store';
 import {Leaf, Sprout} from 'lucide-react-native';
-import {useTheme} from '../shared/theme/ThemeContext';
-import {getColors} from '../shared/theme/colors';
+import {useTheme} from '@/shared/theme/ThemeContext';
+import {getColors} from '@/shared/theme/colors';
 
 const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
   const {plantId} = route.params;
