@@ -1,19 +1,14 @@
 // src/screens/plants/Detail.tsx
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import type {DetailScreenProps} from '@/shared/types/navigation.types';
+import {View, Text, Image, ScrollView, ActivityIndicator} from 'react-native';
+import {DetailScreenProps} from '@/shared/types/navigation.types';
 import {lightShadow} from '@/shared/utils/cardShadow';
 import {usePlantStore} from '@/shared/store';
-import {Leaf, Sprout} from 'lucide-react-native';
+import {Droplet, Leaf, Sprout} from 'lucide-react-native';
 import {useTheme} from '@/shared/theme/ThemeContext';
 import {getColors} from '@/shared/theme/colors';
+import {useStyles} from '@/shared/theme/styles';
+import {Button} from '@/shared/components/Button';
 
 const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
   const {plantId} = route.params;
@@ -21,6 +16,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
     usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
+  const {common, typography} = useStyles();
 
   // Get plant details from store
   const plant = selectedPlant || getPlantById(plantId);
@@ -32,45 +28,13 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
     };
   }, []);
 
-  // Dynamic styles
-  const dynamicStyles = {
-    container: {
-      backgroundColor: colors.background,
-    },
-    card: {
-      backgroundColor: colors.card,
-    },
-    title: {
-      color: colors.primaryDark,
-    },
-    subtitle: {
-      color: colors.text,
-    },
-    border: {
-      borderColor: isDarkMode ? colors.border : '#E5E7EB',
-    },
-    text: {
-      color: colors.text,
-    },
-    textSecondary: {
-      color: colors.textSecondary,
-    },
-    categoryBadge: {
-      backgroundColor: isDarkMode ? 'rgba(10, 131, 100, 0.2)' : '#D8F3DC',
-    },
-    categoryText: {
-      color: isDarkMode ? colors.primary : '#2D6A4F',
-    },
-    iconColor: isDarkMode ? colors.primary : '#2D6A4F',
-  };
-
   if (!plant) {
     return (
       <View
         className="flex-1 items-center justify-center"
-        style={dynamicStyles.container}>
+        style={common.container}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text className="mt-4" style={dynamicStyles.textSecondary}>
+        <Text className="mt-4" style={common.textSecondary}>
           Memuat detail tanaman...
         </Text>
       </View>
@@ -78,59 +42,52 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
   }
 
   return (
-    <View className="flex-1" style={dynamicStyles.container}>
+    <View className="flex-1" style={common.container}>
       <ScrollView className="flex-1">
-        {/* Image Container */}
-        {/* <View className="mt-4 py-4 rounded-3xl items-center"> */}
         <Image
           source={{uri: plant.image}}
-          className="w-screen h-[200px] rounded-b-2xl"
+          className="w-screen h-[300px] rounded-b-2xl"
           resizeMode="cover"
           style={lightShadow}
         />
-        {/* </View> */}
 
         <View
           className="flex-1 m-5 top-[-56px] rounded-3xl"
-          style={[dynamicStyles.card, lightShadow]}>
+          style={[common.card, lightShadow]}>
           {/* Plant Name & Category */}
           <View
-            className="items-center mt-4 pb-4 mx-4 border-b"
-            style={dynamicStyles.border}>
-            <Text className="text-2xl font-bold" style={dynamicStyles.title}>
+            className="flex-row gap-3 items-start mt-4 mx-4"
+            style={{borderColor: isDarkMode ? colors.border : '#E5E7EB'}}>
+            <Sprout size={30} color={isDarkMode ? colors.primary : '#2D6A4F'} />
+            <Text className="text-2xl font-bold" style={typography.h2}>
               {plant.name}
             </Text>
-            <View
-              className="px-4 py-1 rounded-full mt-2"
-              style={dynamicStyles.categoryBadge}>
-              <Text style={dynamicStyles.categoryText}>
-                {plant.category} Plant
-              </Text>
-            </View>
           </View>
 
           {/* Description Section */}
-          <View className="p-4 pb-4 mx-4 border-b" style={dynamicStyles.border}>
-            <Text
-              className="font-semibold text-justify"
-              style={dynamicStyles.subtitle}>
+          <View
+            className=" pb-4 mx-4 border-b"
+            style={{borderColor: isDarkMode ? colors.border : '#E5E7EB'}}>
+            <Text className="text-justify" style={typography.body2}>
               {plant.description}
             </Text>
           </View>
 
           {/* Manfaat Section */}
-          <View className="p-4 pb-4 mx-4 border-b" style={dynamicStyles.border}>
+          <View
+            className=" py-4 mx-4 border-b"
+            style={{borderColor: isDarkMode ? colors.border : '#E5E7EB'}}>
             <View className="flex-row items-center mb-2">
-              <Leaf size={20} color={dynamicStyles.iconColor} />
+              <Leaf size={16} color={isDarkMode ? colors.primary : '#2D6A4F'} />
               <Text
-                className="text-lg font-semibold px-2"
-                style={dynamicStyles.title}>
-                Manfaat
+                className="text-base font-semibold px-2"
+                style={typography.body1}>
+                Manfaat Tanaman
               </Text>
             </View>
             {plant.benefits.map((benefit, index) => (
               <View key={index} className="mb-1">
-                <Text className="text-justify" style={dynamicStyles.text}>
+                <Text className="text-justify" style={typography.body2}>
                   • {benefit}
                 </Text>
               </View>
@@ -138,53 +95,50 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
           </View>
 
           {/* Cara Perawatan Section */}
-          <View className="p-4 mx-4">
+          <View className="p-4">
             <View className="flex-row items-center mb-2">
-              <Sprout size={20} color={dynamicStyles.iconColor} />
+              <Droplet
+                size={16}
+                color={isDarkMode ? colors.primary : '#2D6A4F'}
+              />
               <Text
                 className="text-lg font-semibold px-2"
-                style={dynamicStyles.title}>
+                style={typography.body1}>
                 Cara Perawatan
               </Text>
             </View>
             <View>
               <View className="flex-col">
-                <Text className="font-bold mb-1" style={dynamicStyles.text}>
+                <Text className="font-bold mb-1" style={typography.body2}>
                   Penyiraman:
                 </Text>
                 <Text
                   className="font-normal mb-2 text-justify"
-                  style={dynamicStyles.textSecondary}>
+                  style={typography.body2}>
                   {plant.care.watering}
                 </Text>
               </View>
               <View className="flex-col">
-                <Text className="font-bold mb-1" style={dynamicStyles.text}>
+                <Text className="font-bold mb-1" style={typography.body2}>
                   Cahaya:
                 </Text>
-                <Text
-                  className="font-normal mb-2"
-                  style={dynamicStyles.textSecondary}>
+                <Text className="font-normal mb-2" style={typography.body2}>
                   {plant.care.sunlight}
                 </Text>
               </View>
               <View className="flex-col">
-                <Text className="font-bold mb-1" style={dynamicStyles.text}>
+                <Text className="font-bold mb-1" style={typography.body2}>
                   Suhu:
                 </Text>
-                <Text
-                  className="font-normal mb-2"
-                  style={dynamicStyles.textSecondary}>
+                <Text className="font-normal mb-2" style={typography.body2}>
                   {plant.care.temperature}
                 </Text>
               </View>
               <View className="flex-col">
-                <Text className="font-bold mb-1" style={dynamicStyles.text}>
+                <Text className="font-bold mb-1" style={typography.body2}>
                   Media Tanam:
                 </Text>
-                <Text
-                  className="font-normal mb-2"
-                  style={dynamicStyles.textSecondary}>
+                <Text className="font-normal mb-2" style={typography.body2}>
                   {plant.care.soil}
                 </Text>
               </View>
@@ -195,32 +149,12 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
 
       {/* Favorite Button */}
       <View className="px-5 pb-6">
-        <TouchableOpacity
-          className={`rounded-xl py-4`}
-          style={[
-            lightShadow,
-            isFavorite(plant.id)
-              ? {
-                  backgroundColor: isDarkMode
-                    ? 'rgba(10, 131, 100, 0.2)'
-                    : '#D8F3DC',
-                }
-              : {backgroundColor: isDarkMode ? colors.primaryDark : '#2D6A4F'},
-          ]}
-          activeOpacity={0.8}
+        <Button
+          variant={isFavorite(plant.id) ? 'secondary' : 'primary'}
+          fullWidth
           onPress={() => toggleFavorite(plant.id)}>
-          <Text
-            className="text-center font-semibold"
-            style={{
-              color: isFavorite(plant.id)
-                ? isDarkMode
-                  ? colors.primary
-                  : '#2D6A4F'
-                : 'white',
-            }}>
-            {isFavorite(plant.id) ? 'Favorit' : 'Tambahkan ke Favorit'}
-          </Text>
-        </TouchableOpacity>
+          {isFavorite(plant.id) ? 'Favorit' : 'Tambahkan ke Favorit'}
+        </Button>
       </View>
     </View>
   );

@@ -17,6 +17,7 @@ import {useTheme} from '../../shared/theme/ThemeContext';
 import {getColors} from '../../shared/theme/colors';
 import ThemeToggle from '../../shared/components/ThemeToggle';
 import PlantCard from '../../shared/components/PlantCard';
+import {useStyles} from '../../shared/theme/styles';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
@@ -26,6 +27,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
+  const {common, typography} = useStyles();
 
   const handlePlantPress = (plantId: string) => {
     const plant = plants.find(p => p.id === plantId);
@@ -39,30 +41,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     navigation.getParent()?.navigate('AllPlants');
   };
 
-  // Dynamic styles
-  const dynamicStyles = {
-    container: {
-      backgroundColor: colors.background,
-    },
-    card: {
-      backgroundColor: colors.card,
-    },
-    title: {
-      color: colors.text,
-    },
-    subtitle: {
-      color: colors.textSecondary,
-    },
-    seeAllText: {
-      color: colors.primary,
-    },
-  };
-
   return (
-    <ScrollView className="flex-1 py-5" style={dynamicStyles.container}>
+    <ScrollView className="flex-1 py-5" style={common.container}>
       {/* Header + Theme Toggle */}
       <View className="flex-row justify-between items-center px-4 pb-2">
-        <Text className="text-2xl font-bold" style={dynamicStyles.title}>
+        <Text className="text-2xl font-bold" style={typography.h2}>
           Amantana
         </Text>
         <ThemeToggle />
@@ -76,13 +59,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
       {/* Grid plant cards */}
       <View className="flex-row justify-between items-center px-4 pt-4 pb-1">
-        <Text className="text-lg font-bold" style={dynamicStyles.title}>
+        <Text className="text-lg font-bold" style={typography.h3}>
           Tanaman Populer
         </Text>
         <TouchableOpacity
           className="flex-row items-center"
           onPress={handleSeeAllPress}>
-          <Text className="text-sm mr-1" style={dynamicStyles.seeAllText}>
+          <Text className="text-sm mr-1" style={{color: colors.primary}}>
             Tampilkan lebih banyak
           </Text>
           <ChevronRight size={16} color={colors.primary} />
@@ -93,7 +76,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         horizontal
         nestedScrollEnabled
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 12}} // padding kiri/kanan
+        contentContainerStyle={{paddingHorizontal: 12}}
         className="py-3">
         {plants.slice(0, 5).map(item => (
           <PlantCard

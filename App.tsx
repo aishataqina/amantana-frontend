@@ -113,8 +113,8 @@ const TabNavigator = () => {
         name="HomeTab"
         component={HomeScreen}
         options={{
-          title: 'Beranda',
-          tabBarLabel: 'Beranda',
+          title: '',
+          tabBarLabel: '',
           tabBarIcon: HomeIcon,
         }}
       />

@@ -74,69 +74,33 @@ export const createCommonStyles = (colors: ThemeColors, isDarkMode: boolean) =>
     },
 
     // Button styles
-    buttonBase: {
+    button: {
       paddingVertical: 12,
       paddingHorizontal: 24,
       borderRadius: 12,
+      backgroundColor: colors.primary,
       alignItems: 'center',
       justifyContent: 'center',
-      flexDirection: 'row',
     },
-    // Primary Button
-    buttonPrimary: {
-      backgroundColor: colors.buttonPrimary,
-    },
-    buttonPrimaryText: {
-      color: colors.buttonPrimaryText,
+    buttonText: {
+      color: 'white',
       fontSize: 16,
       fontWeight: '600',
     },
-    // Secondary Button
-    buttonSecondary: {
-      backgroundColor: colors.buttonSecondary,
+    buttonOutline: {
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 12,
       borderWidth: 1,
-      borderColor: colors.buttonPrimary,
+      borderColor: colors.primary,
+      backgroundColor: 'transparent',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    buttonSecondaryText: {
-      color: colors.buttonSecondaryText,
+    buttonOutlineText: {
+      color: colors.primary,
       fontSize: 16,
       fontWeight: '600',
-    },
-    // Disabled Button
-    buttonDisabled: {
-      backgroundColor: colors.buttonDisabled,
-      borderWidth: 0,
-    },
-    buttonDisabledText: {
-      color: colors.buttonDisabledText,
-      fontSize: 16,
-      fontWeight: '600',
-    },
-    // Small Button
-    buttonSmall: {
-      paddingVertical: 8,
-      paddingHorizontal: 16,
-      borderRadius: 8,
-    },
-    buttonSmallText: {
-      fontSize: 14,
-    },
-    // Large Button
-    buttonLarge: {
-      paddingVertical: 16,
-      paddingHorizontal: 32,
-      borderRadius: 16,
-    },
-    buttonLargeText: {
-      fontSize: 18,
-    },
-    // Icon Button
-    buttonIcon: {
-      marginRight: 8,
-    },
-    // Full Width Button
-    buttonFullWidth: {
-      width: '100%',
     },
 
     // List styles
@@ -169,7 +133,6 @@ export const createCommonStyles = (colors: ThemeColors, isDarkMode: boolean) =>
       justifyContent: 'center',
       alignItems: 'center',
     },
-    
     // Empty state
     emptyContainer: {
       flex: 1,
