@@ -3,6 +3,8 @@ import {View, Text, TouchableOpacity, ScrollView, Switch} from 'react-native';
 import {useTheme} from '@/shared/theme/ThemeContext';
 import {getColors} from '@/shared/theme/colors';
 import {useNotification} from '@/shared/hooks/useNotification';
+import {InfoBanner} from '@/shared/components/InfoBanner';
+import {Bell} from 'lucide-react-native';
 
 function WateringReminder() {
   const {isDarkMode} = useTheme();
@@ -20,33 +22,35 @@ function WateringReminder() {
 
   return (
     <ScrollView className="flex-1" style={{backgroundColor: colors.background}}>
-      <View className="flex-1 p-5 min-h-screen">
-        <Text
-          className="text-2xl font-bold mb-5 mt-5 text-center"
-          style={{color: colors.text}}>
-          Pengingat Penyiraman
-        </Text>
-
+      <View className="flex-1 min-h-screen py-5">
         {nextReminder && (
-          <View className="items-center mb-8 py-4">
-            <Text className="text-base mb-1" style={{color: colors.text}}>
-              Pengingat berikutnya:
-            </Text>
-            <Text
-              className="text-2xl font-bold"
-              style={{color: colors.primary}}>
-              {nextReminder.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}
-            </Text>
-          </View>
+          <InfoBanner
+            bgColor={isDarkMode ? 'bg-green-900' : 'bg-green-100'}
+            iconBgColor={isDarkMode ? 'bg-green-800' : 'bg-green-200'}
+            imageSource={require('../../assets/img/banner2.png')}
+            title="Sudah siram tanaman hari ini?"
+            description="Jangan lupa untuk menyiram tanaman agar tetap segar dan sehat."
+            isDark={isDarkMode}
+          />
         )}
 
-        <View className="w-full gap-4 mb-8">
-          <Text className="text-lg font-bold mb-2" style={{color: colors.text}}>
-            Jadwal Penyiraman
-          </Text>
+        <View className="w-full gap-4 mb-8 mt-5 px-4">
+          <View
+            className="flex-row items-center gap-3 rounded-lg p-4"
+            style={{backgroundColor: colors.card}}>
+            <View
+              className="p-2 rounded-full"
+              style={{
+                backgroundColor: isDarkMode ? colors.card : colors.borderLight,
+              }}>
+              <Bell size={20} color={isDarkMode ? colors.primary : '#2D6A4F'} />
+            </View>
+            <Text
+              className="text-lg font-bold mb-2"
+              style={{color: colors.text}}>
+              Jadwal Penyiraman
+            </Text>
+          </View>
 
           {wateringTimes.map(time => (
             <View
@@ -104,14 +108,14 @@ function WateringReminder() {
               Test Notifikasi (5 detik)
             </Text>
           </TouchableOpacity>
-        </View>
 
-        <Text
-          className="text-sm text-center mt-2"
-          style={{color: colors.textTertiary}}>
-          Aktifkan pengingat untuk mendapatkan notifikasi penyiraman tanaman
-          setiap hari pada waktu yang ditentukan.
-        </Text>
+          <Text
+            className="text-sm text-center mt-2"
+            style={{color: colors.textTertiary}}>
+            Aktifkan pengingat untuk mendapatkan notifikasi penyiraman tanaman
+            setiap hari pada waktu yang ditentukan.
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );

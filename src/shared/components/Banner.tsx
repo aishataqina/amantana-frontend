@@ -22,7 +22,7 @@ export const Banner: React.FC<BannerProps> = ({
   containerClassName = '',
   containerStyle = {},
 }) => (
-  <View className={`mb-3 px-3 ${containerClassName}`} style={containerStyle}>
+  <View className={`mb-3 px-4 ${containerClassName}`} style={containerStyle}>
     <Image
       source={source}
       className="w-full h-[200px] rounded-3xl"
