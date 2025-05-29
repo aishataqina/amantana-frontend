@@ -2,7 +2,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, Image, ScrollView, ActivityIndicator} from 'react-native';
 import {DetailScreenProps} from '@/shared/types/navigation.types';
-import {lightShadow} from '@/shared/utils/cardShadow';
+import {darkShadow, lightShadow} from '@/shared/utils/cardShadow';
 import {usePlantStore} from '@/shared/store';
 import {Droplet, Leaf, Sprout} from 'lucide-react-native';
 import {useTheme} from '@/shared/theme/ThemeContext';
@@ -53,7 +53,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
 
         <View
           className="flex-1 m-5 top-[-56px] rounded-3xl"
-          style={[common.card, lightShadow]}>
+          style={[common.card, isDarkMode ? darkShadow : lightShadow]}>
           {/* Plant Name & Category */}
           <View
             className="flex-row gap-3 items-start mt-4 mx-4"

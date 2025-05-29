@@ -5,6 +5,7 @@ import {usePlantStore} from '@/shared/store';
 import {useTheme} from '@/shared/theme/ThemeContext';
 import {getColors} from '@/shared/theme/colors';
 import PlantCard from '@/shared/components/PlantCard';
+import {useStyles} from '@/shared/theme/styles';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
@@ -15,6 +16,7 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
     usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
+  const {common, typography} = useStyles();
 
   // Mengambil semua tanaman favorit
   const favoritePlants = getAllFavorites();
@@ -29,59 +31,34 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
     }
   };
 
-  // Dynamic styles
-  const dynamicStyles = {
-    container: {
-      backgroundColor: colors.background,
-    },
-    card: {
-      backgroundColor: colors.card,
-    },
-    title: {
-      color: colors.text,
-    },
-    subtitle: {
-      color: colors.textSecondary,
-    },
-    categoryBadge: {
-      backgroundColor: isDarkMode
-        ? 'rgba(31, 41, 55, 0.8)'
-        : 'rgba(255, 255, 255, 0.8)',
-    },
-    categoryText: {
-      color: colors.primary,
-    },
-    emptyText: {
-      color: colors.textSecondary,
-    },
-    actionButton: {
-      backgroundColor: isDarkMode ? colors.primary : colors.primaryDark,
-    },
-  };
-
   if (favoritePlants.length === 0) {
     return (
       <View
         className="flex-1 items-center justify-center p-5"
-        style={dynamicStyles.container}>
-        <Text className="text-lg mb-4" style={dynamicStyles.emptyText}>
+        style={common.container}>
+        <Text className="text-lg mb-4" style={common.textSecondary}>
           Belum ada tanaman favorit
         </Text>
         <TouchableOpacity
           className="px-6 py-3 rounded-xl"
-          style={dynamicStyles.actionButton}
+          style={[
+            common.button,
+            {backgroundColor: isDarkMode ? colors.primary : colors.primaryDark},
+          ]}
           onPress={() => navigation.navigate('HomeTab')}>
-          <Text className="text-white font-semibold">Lihat Semua Tanaman</Text>
+          <Text className="text-white font-semibold" style={common.buttonText}>
+            Lihat Semua Tanaman
+          </Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <View className="flex-1" style={dynamicStyles.container}>
+    <View className="flex-1" style={common.container}>
       {/* Header */}
       <View className="flex-row justify-between items-center p-4">
-        <Text className="text-xl font-bold" style={dynamicStyles.title}>
+        <Text className="text-xl font-bold" style={typography.h2}>
           Tanaman Favorit
         </Text>
       </View>

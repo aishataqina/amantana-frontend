@@ -124,9 +124,7 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
             toggleFavorite={toggleFavorite}
           />
         )}
-        contentContainerStyle={{
-          paddingVertical: 10,
-        }}
+        contentContainerStyle={{paddingVertical: 10}}
       />
     );
   };
@@ -140,7 +138,7 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
           common.header,
           {backgroundColor: isDarkMode ? colors.card : colors.borderLight},
         ]}>
-        <View className="flex-row items-center flex-1">
+        <View className="flex-row items-center">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             className="mr-3">
@@ -148,7 +146,9 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
           </TouchableOpacity>
           <View
             className="flex-1 rounded-full px-3  flex-row items-center"
-            style={{backgroundColor: colors.card}}>
+            style={{
+              backgroundColor: isDarkMode ? colors.borderLight : colors.card,
+            }}>
             <Search size={20} color={colors.textTertiary} />
             <TextInput
               className="flex-1 ml-2 text-base"
