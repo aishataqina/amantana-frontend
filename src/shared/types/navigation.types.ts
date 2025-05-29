@@ -7,12 +7,15 @@ export type RootStackParamList = {
   Home: undefined;
   Detail: { plantId: string };
   SearchResult: { searchQuery: string };
+  AllPlants: undefined;
+  Reminders: undefined;
 };
 
 // Define the param list untuk Tab Navigator
 export type TabParamList = {
   HomeTab: undefined;
   Favorites: undefined;
+  Reminders: undefined;
 };
 
 // Navigation props untuk Stack Navigator

@@ -12,8 +12,9 @@ import DetailScreen from './src/screens/Detail';
 import FavoritesScreen from './src/screens/Favorites';
 import SearchResult from './src/screens/SearchResult';
 import AllPlants from './src/screens/AllPlants';
+import WateringReminder from './src/screens/WateringReminder';
 import {RootStackParamList} from './src/shared/types/navigation.types';
-import {Heart, Home} from 'lucide-react-native';
+import {Heart, Home, Droplets} from 'lucide-react-native';
 import {ThemeProvider, useTheme} from './src/shared/theme/ThemeContext';
 import ThemedStatusBar from './src/shared/components/ThemedStatusBar';
 import {getColors} from './src/shared/theme/colors';
@@ -22,6 +23,7 @@ import {getColors} from './src/shared/theme/colors';
 type TabParamList = {
   HomeTab: undefined;
   Favorites: undefined;
+  Reminders: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -50,6 +52,21 @@ const FavoritesIcon = ({focused}: {focused: boolean}) => {
   return (
     <View>
       <Heart
+        size={20}
+        color={focused ? colors.primaryDark : colors.textTertiary}
+        fill={focused ? colors.primaryDark : colors.textTertiary}
+      />
+    </View>
+  );
+};
+
+const RemindersIcon = ({focused}: {focused: boolean}) => {
+  const {isDarkMode} = useTheme();
+  const colors = getColors(isDarkMode);
+
+  return (
+    <View>
+      <Droplets
         size={20}
         color={focused ? colors.primaryDark : colors.textTertiary}
         fill={focused ? colors.primaryDark : colors.textTertiary}
@@ -108,6 +125,15 @@ const TabNavigator = () => {
           title: 'Favorit',
           tabBarLabel: 'Favorit',
           tabBarIcon: FavoritesIcon,
+        }}
+      />
+      <Tab.Screen
+        name="Reminders"
+        component={WateringReminder}
+        options={{
+          title: 'Pengingat',
+          tabBarLabel: 'Pengingat',
+          tabBarIcon: RemindersIcon,
         }}
       />
     </Tab.Navigator>
