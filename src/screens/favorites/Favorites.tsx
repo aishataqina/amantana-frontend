@@ -21,13 +21,13 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
   // Mengambil semua tanaman favorit
   const favoritePlants = getAllFavorites();
 
-  const handlePlantPress = (plantId: string) => {
+  const handlePlantPress = (plantId: number) => {
     const plant = favoritePlants.find(p => p.id === plantId);
     if (plant) {
       setSelectedPlant(plant);
       // Karena kita berada di dalam tab navigator, kita perlu menggunakan
       // navigate ke parent navigator (Stack) untuk ke Detail
-      navigation.getParent()?.navigate('Detail', {plantId: plant.id});
+      navigation.getParent()?.navigate('Detail', {plantId: plantId.toString()});
     }
   };
 
@@ -45,7 +45,7 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
             common.button,
             {backgroundColor: isDarkMode ? colors.primary : colors.primaryDark},
           ]}
-          onPress={() => navigation.navigate('HomeTab')}>
+          onPress={() => navigation.getParent()?.navigate('AllPlants')}>
           <Text className="text-white font-semibold" style={common.buttonText}>
             Lihat Semua Tanaman
           </Text>
@@ -67,14 +67,14 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
       <FlatList
         data={favoritePlants}
         numColumns={2}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         className="p-3"
         contentContainerStyle={{paddingBottom: 20}}
         renderItem={({item}) => (
           <PlantCard
             plant={item}
             width={cardWidth}
-            onPress={handlePlantPress}
+            onPress={() => handlePlantPress(item.id)}
             isFavorite={isFavorite}
             toggleFavorite={toggleFavorite}
           />
