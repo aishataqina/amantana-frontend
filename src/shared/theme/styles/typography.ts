@@ -7,19 +7,19 @@ export const createTypographyStyles = (colors: ThemeColors) =>
       fontSize: 32,
       fontWeight: 'bold',
       color: colors.text,
-      marginBottom: 16,
+      // marginBottom: 16,
     },
     h2: {
       fontSize: 24,
       fontWeight: 'bold',
       color: colors.text,
-      marginBottom: 12,
+      // marginBottom: 12,
     },
     h3: {
       fontSize: 20,
       fontWeight: '600',
       color: colors.text,
-      marginBottom: 8,
+      // marginBottom: 8,
     },
     body1: {
       fontSize: 16,
