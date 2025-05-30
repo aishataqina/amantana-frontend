@@ -33,7 +33,7 @@ export const plants: Plant[] = [
       'Menyerap racun dari udara',
       'Melepaskan oksigen di malam hari',
       'Tahan berbagai kondisi',
-      'Membantu menyaring formaldehida',
+      'Tahan berbagai kondisi',
     ],
     care: {
       watering: 'Siram setiap 2-3 minggu',

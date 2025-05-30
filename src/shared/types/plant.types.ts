@@ -1,9 +1,9 @@
 export interface Plant {
-  id: string;
+  id: number;
   name: string;
   image: string;
-  category: 'Indoor' | 'Outdoor' | 'Herbal' | 'Tanaman Hias';
-  difficulty: 'Mudah' | 'Sedang' | 'Sulit';
+  category: string;
+  difficulty: string;
   description: string;
   benefits: string[];
   care: {
@@ -12,6 +12,8 @@ export interface Plant {
     temperature: string;
     soil: string;
   };
+  created_at: string;
+  updated_at: string;
 }
 
 

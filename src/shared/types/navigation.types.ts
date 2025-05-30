@@ -19,31 +19,15 @@ export type TabParamList = {
 };
 
 // Navigation props untuk Stack Navigator
-export type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
-
-export type DetailScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'Detail'
->;
-
-export type SearchResultScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'SearchResult'
->;
+export type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+export type DetailScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Detail'>;
+export type SearchResultScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SearchResult'>;
+export type AllPlantsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AllPlants'>;
+export type RemindersScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Reminders'>;
 
 // Navigation props untuk Tab Navigator
-export type HomeTabNavigationProp = BottomTabNavigationProp<
-  TabParamList,
-  'HomeTab'
->;
-
-export type FavoritesTabNavigationProp = BottomTabNavigationProp<
-  TabParamList,
-  'Favorites'
->;
+export type HomeTabNavigationProp = BottomTabNavigationProp<TabParamList, 'HomeTab'>;
+export type FavoritesTabNavigationProp = BottomTabNavigationProp<TabParamList, 'Favorites'>;
 
 // Route props untuk screens
 export type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;

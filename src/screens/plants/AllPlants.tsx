@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -19,31 +19,73 @@ import {Button} from '@/shared/components/Button';
 
 const AllPlants: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const [loading, _setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const {plants, isFavorite, toggleFavorite} = usePlantStore();
+  const {
+    plants,
+    isLoading,
+    error,
+    isFavorite,
+    toggleFavorite,
+    fetchPlants,
+    fetchPlantsByCategory,
+  } = usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
   const {common} = useStyles();
 
+  // Debug logs
+  console.log('Plants data:', plants);
+  console.log('Loading state:', isLoading);
+  console.log('Error state:', error);
+
   // Get unique categories
-  const categories = ['all', ...new Set(plants.map(plant => plant.category))];
+  const categories = [
+    'all',
+    ...(plants && plants.length > 0
+      ? [...new Set(plants.map(plant => plant.category))]
+      : []),
+  ];
 
-  // Filter tanaman berdasarkan kategori yang dipilih
-  const filteredPlants =
-    selectedCategory === 'all'
-      ? plants
-      : plants.filter(
-          plant =>
-            plant.category.toLowerCase() === selectedCategory.toLowerCase(),
-        );
+  // Fetch plants on mount
+  useEffect(() => {
+    const loadPlants = async () => {
+      try {
+        await fetchPlants();
+      } catch (err) {
+        console.error('Error fetching plants:', err);
+      }
+    };
+    loadPlants();
+  }, [fetchPlants]);
 
-  const handleItemPress = (plantId: string) => {
-    const plant = plants.find(p => p.id === plantId);
-    if (plant) {
-      navigation.navigate('Detail', {plantId: plant.id});
+  // Handle category change
+  const handleCategoryChange = async (category: string) => {
+    setSelectedCategory(category);
+    try {
+      if (category === 'all') {
+        await fetchPlants();
+      } else {
+        await fetchPlantsByCategory(category);
+      }
+    } catch (err) {
+      console.error('Error changing category:', err);
     }
   };
+
+  const handleItemPress = (plantId: number) => {
+    navigation.navigate('Detail', {plantId: plantId.toString()});
+  };
+
+  if (error) {
+    return (
+      <View
+        className="flex-1 justify-center items-center"
+        style={common.container}>
+        <Text className="text-red-500 mb-4">{error}</Text>
+        <Button onPress={fetchPlants}>Coba Lagi</Button>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 py-8" style={common.container}>
@@ -56,14 +98,14 @@ const AllPlants: React.FC = () => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="py-4 px-4 h-18 fixed"
+          className="py-2 px-4 h-18 fixed"
           style={{borderBottomColor: colors.border}}>
           {categories.map(category => (
             <Button
               key={category}
               variant={selectedCategory === category ? 'primary' : 'secondary'}
               size="small"
-              onPress={() => setSelectedCategory(category)}
+              onPress={() => handleCategoryChange(category)}
               style={{marginRight: 8, minWidth: 80}}>
               {category === 'all' ? 'Semua' : category}
             </Button>
@@ -72,19 +114,19 @@ const AllPlants: React.FC = () => {
       </View>
 
       {/* Plant Grid */}
-      {loading ? (
+      {isLoading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <FlatList
-          data={filteredPlants}
+          data={plants || []}
           numColumns={2}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
             <PlantCard
               plant={item}
-              onPress={handleItemPress}
+              onPress={() => handleItemPress(item.id)}
               style={{flex: 1}}
               isFavorite={isFavorite}
               toggleFavorite={toggleFavorite}
@@ -105,7 +147,7 @@ const AllPlants: React.FC = () => {
           }
           contentContainerStyle={{
             paddingVertical: 10,
-            flexGrow: filteredPlants.length === 0 ? 1 : undefined,
+            flexGrow: !plants || plants.length === 0 ? 1 : undefined,
           }}
         />
       )}

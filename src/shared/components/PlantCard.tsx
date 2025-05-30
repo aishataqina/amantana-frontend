@@ -8,10 +8,10 @@ import {lightShadow, darkShadow} from '../utils/cardShadow';
 
 interface PlantCardProps {
   plant: Plant;
-  onPress: (plantId: string) => void;
+  onPress: (plantId: number) => void;
   width?: number;
-  isFavorite?: (id: string) => boolean;
-  toggleFavorite?: (id: string) => void;
+  isFavorite?: (id: number) => boolean;
+  toggleFavorite?: (id: number) => void;
   style?: any;
   variant?: 'grid' | 'list';
 }
@@ -40,16 +40,23 @@ const PlantCard: React.FC<PlantCardProps> = ({
     },
   };
 
+  const handleFavoritePress = (e: any) => {
+    e.stopPropagation();
+    if (toggleFavorite) {
+      toggleFavorite(plant.id);
+    }
+  };
+
   // Menampilkan varian list (horizontal)
   if (variant === 'list') {
     return (
       <TouchableOpacity
         className="mx-4 my-2 rounded-xl overflow-hidden"
-        // style={[
-        //   dynamicStyles.card,
-        //   isDarkMode ? darkShadow : lightShadow,
-        //   style,
-        // ]}
+        style={[
+          dynamicStyles.card,
+          isDarkMode ? darkShadow : lightShadow,
+          style,
+        ]}
         onPress={() => onPress(plant.id)}>
         <View className="flex-row items-center">
           <Image
@@ -64,9 +71,9 @@ const PlantCard: React.FC<PlantCardProps> = ({
             <View className="flex-row items-center mt-1">
               <View
                 className={`w-2 h-2 rounded-full mr-2 ${
-                  plant.difficulty === 'Mudah'
+                  plant.difficulty.toLowerCase() === 'mudah'
                     ? 'bg-green-500'
-                    : plant.difficulty === 'Sedang'
+                    : plant.difficulty.toLowerCase() === 'sedang'
                     ? 'bg-yellow-500'
                     : 'bg-red-500'
                 }`}
@@ -89,6 +96,15 @@ const PlantCard: React.FC<PlantCardProps> = ({
               </Text>
             </View>
           </View>
+          {isFavorite && toggleFavorite && (
+            <TouchableOpacity className="p-2" onPress={handleFavoritePress}>
+              {isFavorite(plant.id) ? (
+                <Heart size={20} color="#FF0000" fill="#FF0000" />
+              ) : (
+                <Heart size={20} color={isDarkMode ? '#FFFFFF' : '#000000'} />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -148,9 +164,9 @@ const PlantCard: React.FC<PlantCardProps> = ({
           <View className="flex-row items-center mt-1">
             <View
               className={`w-2 h-2 rounded-full mr-2 ${
-                plant.difficulty === 'Mudah'
+                plant.difficulty.toLowerCase() === 'mudah'
                   ? 'bg-green-500'
-                  : plant.difficulty === 'Sedang'
+                  : plant.difficulty.toLowerCase() === 'sedang'
                   ? 'bg-yellow-500'
                   : 'bg-red-500'
               }`}
@@ -168,10 +184,7 @@ const PlantCard: React.FC<PlantCardProps> = ({
                 ? 'rgba(31, 41, 55, 0.8)'
                 : 'rgba(255, 255, 255, 0.8)',
             }}
-            onPress={e => {
-              e.stopPropagation();
-              toggleFavorite(plant.id);
-            }}>
+            onPress={handleFavoritePress}>
             {isFavorite(plant.id) ? (
               <Heart size={20} color="#FF0000" fill="#FF0000" />
             ) : (

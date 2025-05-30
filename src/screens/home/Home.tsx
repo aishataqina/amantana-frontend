@@ -1,11 +1,12 @@
 // src/screens/home/Home.tsx
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   View,
   Text,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {HomeScreenProps} from '../../shared/types/navigation.types';
 import {usePlantStore} from '../../shared/store';
@@ -23,23 +24,50 @@ const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const {plants, setSelectedPlant, isFavorite, toggleFavorite} =
-    usePlantStore();
+  const {
+    plants,
+    setSelectedPlant,
+    isFavorite,
+    toggleFavorite,
+    fetchPlants,
+    isLoading,
+    error,
+  } = usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
   const {common, typography} = useStyles();
 
-  const handlePlantPress = (plantId: string) => {
+  // Fetch plants when component mounts
+  useEffect(() => {
+    fetchPlants();
+  }, [fetchPlants]);
+
+  const handlePlantPress = (plantId: number) => {
     const plant = plants.find(p => p.id === plantId);
     if (plant) {
       setSelectedPlant(plant);
-      navigation.getParent()?.navigate('Detail', {plantId: plant.id});
+      navigation.getParent()?.navigate('Detail', {plantId: plantId.toString()});
     }
   };
 
   const handleSeeAllPress = () => {
     navigation.getParent()?.navigate('AllPlants');
   };
+
+  if (error) {
+    return (
+      <View
+        className="flex-1 justify-center items-center"
+        style={common.container}>
+        <Text className="text-red-500 mb-4">{error}</Text>
+        <TouchableOpacity
+          className="bg-primary px-4 py-2 rounded-lg"
+          onPress={fetchPlants}>
+          <Text className="text-white">Coba Lagi</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <ScrollView className="flex-1 py-5" style={common.container}>
@@ -72,23 +100,39 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView
-        horizontal
-        nestedScrollEnabled
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 12}}
-        className="py-3">
-        {plants.slice(0, 5).map(item => (
-          <PlantCard
-            key={item.id}
-            plant={item}
-            width={cardWidth}
-            onPress={handlePlantPress}
-            isFavorite={isFavorite}
-            toggleFavorite={toggleFavorite}
-          />
-        ))}
-      </ScrollView>
+      {isLoading ? (
+        <View className="py-8 justify-center items-center">
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : (
+        <ScrollView
+          horizontal
+          nestedScrollEnabled
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{paddingHorizontal: 12}}
+          className="py-3">
+          {plants && plants.length > 0 ? (
+            plants
+              .slice(0, 5)
+              .map(item => (
+                <PlantCard
+                  key={item.id}
+                  plant={item}
+                  width={cardWidth}
+                  onPress={handlePlantPress}
+                  isFavorite={isFavorite}
+                  toggleFavorite={toggleFavorite}
+                />
+              ))
+          ) : (
+            <View className="flex-1 justify-center items-center p-8">
+              <Text style={{color: colors.textSecondary}}>
+                Tidak ada tanaman tersedia
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+      )}
 
       {/* Banner tips di bawah */}
       <InfoBanner

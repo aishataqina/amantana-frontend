@@ -12,14 +12,31 @@ import {Button} from '@/shared/components/Button';
 
 const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
   const {plantId} = route.params;
-  const {getPlantById, toggleFavorite, isFavorite, selectedPlant} =
-    usePlantStore();
+  const {
+    getPlantById,
+    toggleFavorite,
+    isFavorite,
+    selectedPlant,
+    fetchPlantById,
+  } = usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
   const {common, typography} = useStyles();
 
+  // Fetch plant details when component mounts
+  useEffect(() => {
+    const loadPlant = async () => {
+      try {
+        await fetchPlantById(parseInt(plantId));
+      } catch (error) {
+        console.error('Error loading plant:', error);
+      }
+    };
+    loadPlant();
+  }, [plantId, fetchPlantById]);
+
   // Get plant details from store
-  const plant = selectedPlant || getPlantById(plantId);
+  const plant = selectedPlant || getPlantById(parseInt(plantId));
 
   // Cleanup when unmounting
   useEffect(() => {
@@ -59,14 +76,16 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
             className="flex-row gap-3 items-start mt-4 mx-4"
             style={{borderColor: isDarkMode ? colors.border : '#E5E7EB'}}>
             <Sprout size={30} color={isDarkMode ? colors.primary : '#2D6A4F'} />
-            <Text className="text-2xl font-bold" style={typography.h2}>
+            <Text
+              className="text-2xl font-bold text-wrap"
+              style={typography.h3}>
               {plant.name}
             </Text>
           </View>
 
           {/* Description Section */}
           <View
-            className=" pb-4 mx-4 border-b"
+            className="pb-4 mx-4 border-b"
             style={{borderColor: isDarkMode ? colors.border : '#E5E7EB'}}>
             <Text className="text-justify" style={typography.body2}>
               {plant.description}
@@ -75,10 +94,10 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
 
           {/* Manfaat Section */}
           <View
-            className=" py-4 mx-4 border-b"
+            className="py-4 mx-4 border-b"
             style={{borderColor: isDarkMode ? colors.border : '#E5E7EB'}}>
             <View className="flex-row items-center mb-2">
-              <Leaf size={16} color={isDarkMode ? colors.primary : '#2D6A4F'} />
+              <Leaf size={20} color={isDarkMode ? colors.primary : '#2D6A4F'} />
               <Text
                 className="text-base font-semibold px-2"
                 style={typography.body1}>
@@ -98,7 +117,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
           <View className="p-4">
             <View className="flex-row items-center mb-2">
               <Droplet
-                size={16}
+                size={20}
                 color={isDarkMode ? colors.primary : '#2D6A4F'}
               />
               <Text
@@ -150,10 +169,12 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
       {/* Favorite Button */}
       <View className="px-5 pb-6">
         <Button
-          variant={isFavorite(plant.id) ? 'secondary' : 'primary'}
-          fullWidth
-          onPress={() => toggleFavorite(plant.id)}>
-          {isFavorite(plant.id) ? 'Favorit' : 'Tambahkan ke Favorit'}
+          variant={isFavorite(parseInt(plantId)) ? 'secondary' : 'primary'}
+          onPress={() => toggleFavorite(parseInt(plantId))}
+          fullWidth>
+          {isFavorite(parseInt(plantId))
+            ? 'Hapus dari Favorit'
+            : 'Tambah ke Favorit'}
         </Button>
       </View>
     </View>

@@ -2,13 +2,13 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PlantStore } from './types';
-import { plants as plantsData } from '../../data/plants';
+import { PlantService } from '../services/plant.service';
 
 export const usePlantStore = create<PlantStore>()(
   persist(
     (set, get) => ({
       // Initial state
-      plants: plantsData,
+      plants: [],
       selectedPlant: null,
       favorites: [],
       isLoading: false,
@@ -16,15 +16,76 @@ export const usePlantStore = create<PlantStore>()(
 
       // Mutations
       setSelectedPlant: (plant) => set({ selectedPlant: plant }),
+      setIsLoading: (loading: boolean) => set({ isLoading: loading }),
+      setError: (error: string | null) => set({ error }),
+      setPlants: (plants) => set({ plants }),
+
+      // API Actions
+      fetchPlants: async () => {
+        try {
+          set({ isLoading: true, error: null });
+          const plants = await PlantService.getAllPlants();
+          set({ plants, isLoading: false });
+        } catch (error) {
+          set({ 
+            error: 'Gagal mengambil data tanaman', 
+            isLoading: false 
+          });
+        }
+      },
+
+      fetchPlantById: async (id: number) => {
+        try {
+          set({ isLoading: true, error: null });
+          const plant = await PlantService.getPlantById(id);
+          set({ selectedPlant: plant, isLoading: false });
+          return plant;
+        } catch (error) {
+          set({ 
+            error: 'Gagal mengambil detail tanaman', 
+            isLoading: false 
+          });
+          throw error;
+        }
+      },
+
+      searchPlants: async (query: string) => {
+        try {
+          set({ isLoading: true, error: null });
+          const plants = await PlantService.searchPlants(query);
+          return plants;
+        } catch (error) {
+          set({ 
+            error: 'Gagal mencari tanaman', 
+            isLoading: false 
+          });
+          throw error;
+        } finally {
+          set({ isLoading: false });
+        }
+      },
+
+      fetchPlantsByCategory: async (category: string) => {
+        try {
+          set({ isLoading: true, error: null });
+          const plants = await PlantService.getPlantsByCategory(category);
+          set({ plants, isLoading: false });
+          return plants;
+        } catch (error) {
+          set({ 
+            error: 'Gagal mengambil tanaman berdasarkan kategori', 
+            isLoading: false 
+          });
+          throw error;
+        }
+      },
 
       toggleFavorite: (plantId) => {
         const { favorites } = get();
         const isFavorited = favorites.includes(plantId);
         if (isFavorited) {
-          // Remove from favorites
           set({ favorites: favorites.filter(id => id !== plantId) });
         } else {
-          // Add to favorites
           set({ favorites: [...favorites, plantId] });
         }
       },
@@ -48,7 +109,6 @@ export const usePlantStore = create<PlantStore>()(
     {
       name: 'amantana-plant-storage',
       storage: createJSONStorage(() => AsyncStorage),
-      // Hanya menyimpan favorit di storage, bukan seluruh state
       partialize: (state) => ({
         favorites: state.favorites,
       }),

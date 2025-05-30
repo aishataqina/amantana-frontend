@@ -3,7 +3,7 @@ import { Plant } from '../types/plant.types';
 export interface PlantState {
   plants: Plant[];
   selectedPlant: Plant | null;
-  favorites: string[]; // Menyimpan ID tanaman favorit
+  favorites: number[]; // Menyimpan ID tanaman favorit
   isLoading: boolean;
   error: string | null;
 }
@@ -11,12 +11,21 @@ export interface PlantState {
 export interface PlantActions {
   // Mutations
   setSelectedPlant: (plant: Plant | null) => void;
-  toggleFavorite: (plantId: string) => void;
+  setIsLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  setPlants: (plants: Plant[]) => void;
+  toggleFavorite: (plantId: number) => void;
   clearSelectedPlant: () => void;
 
+  // API Actions
+  fetchPlants: () => Promise<void>;
+  fetchPlantById: (id: number) => Promise<Plant>;
+  searchPlants: (query: string) => Promise<Plant[]>;
+  fetchPlantsByCategory: (category: string) => Promise<Plant[]>;
+
   // Derived selectors
-  getPlantById: (id: string) => Plant | undefined;
-  isFavorite: (id: string) => boolean;
+  getPlantById: (id: number) => Plant | undefined;
+  isFavorite: (id: number) => boolean;
   getAllFavorites: () => Plant[];
 }
 
