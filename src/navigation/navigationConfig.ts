@@ -4,17 +4,18 @@ export const createNavigationConfig = (isDarkMode: boolean) => {
   const colors = getColors(isDarkMode);
 
   const headerStyle = {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.card,
     headerTintColor: colors.text,
     headerTitleStyle: {
       fontWeight: 'bold' as const,
+      fontSize: 24,
     },
-    headerTitleAlign: 'center' as const,
+    headerTitleAlign: 'left' as const,
     headerShadowVisible: false,
   };
 
   const tabBarStyle = {
-    height: 60,
+    height: 64,
     paddingBottom: 10,
     paddingTop: 5,
     backgroundColor: colors.card,
@@ -28,4 +29,4 @@ export const createNavigationConfig = (isDarkMode: boolean) => {
       inactiveTintColor: colors.textTertiary,
     },
   };
-}; 
+};

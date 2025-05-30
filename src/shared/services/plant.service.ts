@@ -8,15 +8,15 @@ export const PlantService = {
       console.log('Fetching all plants...');
       const response = await api.get('/plants');
       console.log('Plants API Response:', response);
-      
+
       const plants = response.data;
-      
+
       // Pastikan response.data adalah array
       if (!Array.isArray(plants)) {
         console.error('Invalid response format:', plants);
         throw new Error('Format data tidak valid');
       }
-      
+
       return plants;
     } catch (error: any) {
       console.error('Error fetching plants:', {
@@ -26,7 +26,7 @@ export const PlantService = {
         stack: error.stack,
       });
       throw new Error(
-        error.response?.data?.message || 
+        error.response?.data?.message ||
         'Gagal mengambil data tanaman. Silakan coba lagi.'
       );
     }
@@ -46,7 +46,7 @@ export const PlantService = {
         response: error.response?.data,
       });
       throw new Error(
-        error.response?.data?.message || 
+        error.response?.data?.message ||
         'Gagal mengambil detail tanaman. Silakan coba lagi.'
       );
     }
@@ -57,7 +57,7 @@ export const PlantService = {
     try {
       console.log(`Searching plants with query: ${query}`);
       const response = await api.get('/plants', {
-        params: { search: query }
+        params: { search: query },
       });
       console.log('Search results:', response.data);
       return response.data;
@@ -68,7 +68,7 @@ export const PlantService = {
         response: error.response?.data,
       });
       throw new Error(
-        error.response?.data?.message || 
+        error.response?.data?.message ||
         'Gagal mencari tanaman. Silakan coba lagi.'
       );
     }
@@ -79,7 +79,7 @@ export const PlantService = {
     try {
       console.log(`Fetching plants by category: ${category}`);
       const response = await api.get('/plants', {
-        params: { category }
+        params: { category },
       });
       console.log('Category results:', response.data);
       return response.data;
@@ -90,7 +90,7 @@ export const PlantService = {
         response: error.response?.data,
       });
       throw new Error(
-        error.response?.data?.message || 
+        error.response?.data?.message ||
         'Gagal mengambil tanaman berdasarkan kategori. Silakan coba lagi.'
       );
     }

@@ -95,16 +95,17 @@ const AllPlants: React.FC = () => {
   return (
     <View className="flex-1 py-8" style={common.container}>
       {/* Header */}
-      <View className="flex-row items-center justify-between p-3">
-        <TouchableOpacity onPress={() => navigation.goBack()} className="mr-3">
+      <View className="flex-row items-center justify-between p-3 mr-3">
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowLeft size={24} color={colors.text} />
         </TouchableOpacity>
         {/* Categories */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="py-2 px-4 h-18 fixed"
-          style={{borderBottomColor: colors.border}}>
+          className="py-2 px-4 h-16 fixed"
+          style={{borderBottomColor: colors.border}}
+          contentContainerStyle={{paddingRight: 16}}>
           {categories.map(category => (
             <Button
               key={category}

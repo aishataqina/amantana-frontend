@@ -16,9 +16,9 @@ import {Banner} from '../../shared/components/Banner';
 import {InfoBanner} from '../../shared/components/InfoBanner';
 import {useTheme} from '../../shared/theme/ThemeContext';
 import {getColors} from '../../shared/theme/colors';
-import ThemeToggle from '../../shared/components/ThemeToggle';
 import PlantCard from '../../shared/components/PlantCard';
 import {useStyles} from '../../shared/theme/styles';
+import {CategoryCard} from '@/shared/components/CategoryCard';
 
 const windowWidth = Dimensions.get('window').width;
 const cardWidth = (windowWidth - 48) / 2;
@@ -37,7 +37,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const colors = getColors(isDarkMode);
   const {common, typography} = useStyles();
 
-  // Fetch plants when component mounts
   useEffect(() => {
     fetchPlants();
   }, [fetchPlants]);
@@ -71,23 +70,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
   return (
     <ScrollView className="flex-1 py-5" style={common.container}>
-      {/* Header + Theme Toggle */}
-      <View className="flex-row justify-between items-center px-4 pb-2">
-        <Text className="text-2xl font-bold" style={typography.h2}>
-          Amantana
-        </Text>
-        <ThemeToggle />
-      </View>
-
       {/* Banner utama */}
       <Banner source={require('../../assets/img/banner.jpg')} />
 
       {/* Search Bar */}
       <SearchBar />
 
+      {/* Kategori Tanaman */}
+      <CategoryCard />
+
       {/* Grid plant cards */}
-      <View className="flex-row justify-between items-center px-4 pt-4 pb-1">
-        <Text className="text-lg font-bold" style={typography.h3}>
+      <View className="flex-row justify-between items-center px-4 pt-6 pb-1">
+        <Text className="text-lg font-bold" style={typography.h4}>
           Tanaman Populer
         </Text>
         <TouchableOpacity
@@ -143,6 +137,29 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         description="Siram tanaman secukupnya, tempatkan pada cahaya tidak langsung, dan berikan pupuk alami."
         isDark={isDarkMode}
       />
+
+      <View className="px-4 pt-6 pb-2 mb-8 flex-col gap-4">
+        <View>
+          <Text className="text-lg font-bold" style={typography.body2}>
+            Kamu + Tanaman = Tim yang sempurna!
+          </Text>
+          <Text className="text-sm" style={typography.caption}>
+            🌿 Yuk, ikuti kelas berkebun dan temukan keseruan merawat tanaman
+            sendiri!
+          </Text>
+        </View>
+
+        <View>
+          <Banner
+            source={require('../../assets/img/banner3.jpg')}
+            caption="Pelajari cara membuat taman impianmu! 🌸"
+            subcaption="Daftar kelas berkebun sekarang dan mulai petualangan hijaumu hari ini!"
+            showCaption={true}
+            captionStyle="card"
+            containerClassName="m-0"
+          />
+        </View>
+      </View>
     </ScrollView>
   );
 };

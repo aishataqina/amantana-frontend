@@ -10,6 +10,7 @@ import {
   RemindersIcon,
 } from '../shared/components/icons/TabIcons';
 import {createNavigationConfig} from './navigationConfig';
+import ThemeToggle from '../shared/components/ThemeToggle';
 
 type TabParamList = {
   HomeTab: undefined;
@@ -45,6 +46,7 @@ export const TabNavigator = () => {
           title: 'Amantana',
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => <HomeIcon color={color} size={size} />,
+          headerRight: () => <ThemeToggle style={{marginRight: 16}} />,
         }}
       />
       <Tab.Screen
@@ -53,7 +55,9 @@ export const TabNavigator = () => {
         options={{
           title: 'Favorit',
           tabBarLabel: 'Favorit',
-          tabBarIcon: ({color, size}) => <FavoritesIcon color={color} size={size} />,
+          tabBarIcon: ({color, size}) => (
+            <FavoritesIcon color={color} size={size} />
+          ),
         }}
       />
       <Tab.Screen
@@ -62,7 +66,9 @@ export const TabNavigator = () => {
         options={{
           title: 'Pengingat',
           tabBarLabel: 'Pengingat',
-          tabBarIcon: ({color, size}) => <RemindersIcon color={color} size={size} />,
+          tabBarIcon: ({color, size}) => (
+            <RemindersIcon color={color} size={size} />
+          ),
         }}
       />
     </Tab.Navigator>

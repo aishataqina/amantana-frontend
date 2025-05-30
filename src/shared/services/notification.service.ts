@@ -199,4 +199,4 @@ export function setupNotificationListeners(callback?: (type: any, detail: any) =
   });
 
   return unsubscribe;
-} 
+}

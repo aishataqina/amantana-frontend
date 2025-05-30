@@ -21,6 +21,12 @@ export const createTypographyStyles = (colors: ThemeColors) =>
       color: colors.text,
       // marginBottom: 8,
     },
+    h4: {
+      fontSize: 18,
+      fontWeight: '500',
+      color: colors.text,
+      // marginBottom: 8,
+    },
     body1: {
       fontSize: 16,
       color: colors.text,

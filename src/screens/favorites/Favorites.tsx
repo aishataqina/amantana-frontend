@@ -16,7 +16,7 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
     usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
-  const {common, typography} = useStyles();
+  const {common} = useStyles();
 
   // Mengambil semua tanaman favorit
   const favoritePlants = getAllFavorites();
@@ -56,13 +56,6 @@ const FavoritesScreen: React.FC<FavoritesScreenProps> = ({navigation}) => {
 
   return (
     <View className="flex-1" style={common.container}>
-      {/* Header */}
-      <View className="flex-row justify-between items-center p-4">
-        <Text className="text-xl font-bold" style={typography.h2}>
-          Tanaman Favorit
-        </Text>
-      </View>
-
       {/* Favorite Plants List */}
       <FlatList
         data={favoritePlants}

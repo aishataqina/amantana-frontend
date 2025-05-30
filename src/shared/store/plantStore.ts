@@ -27,9 +27,9 @@ export const usePlantStore = create<PlantStore>()(
           const plants = await PlantService.getAllPlants();
           set({ plants, isLoading: false });
         } catch (error) {
-          set({ 
-            error: 'Gagal mengambil data tanaman', 
-            isLoading: false 
+          set({
+            error: 'Gagal mengambil data tanaman',
+            isLoading: false,
           });
         }
       },
@@ -41,9 +41,9 @@ export const usePlantStore = create<PlantStore>()(
           set({ selectedPlant: plant, isLoading: false });
           return plant;
         } catch (error) {
-          set({ 
-            error: 'Gagal mengambil detail tanaman', 
-            isLoading: false 
+          set({
+            error: 'Gagal mengambil detail tanaman',
+            isLoading: false,
           });
           throw error;
         }
@@ -55,9 +55,9 @@ export const usePlantStore = create<PlantStore>()(
           const plants = await PlantService.searchPlants(query);
           return plants;
         } catch (error) {
-          set({ 
-            error: 'Gagal mencari tanaman', 
-            isLoading: false 
+          set({
+            error: 'Gagal mencari tanaman',
+            isLoading: false,
           });
           throw error;
         } finally {
@@ -72,9 +72,9 @@ export const usePlantStore = create<PlantStore>()(
           set({ plants, isLoading: false });
           return plants;
         } catch (error) {
-          set({ 
-            error: 'Gagal mengambil tanaman berdasarkan kategori', 
-            isLoading: false 
+          set({
+            error: 'Gagal mengambil tanaman berdasarkan kategori',
+            isLoading: false,
           });
           throw error;
         }
