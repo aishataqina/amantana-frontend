@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -20,15 +20,9 @@ import {Button} from '@/shared/components/Button';
 const AllPlants: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const {
-    plants,
-    isLoading,
-    error,
-    isFavorite,
-    toggleFavorite,
-    fetchPlants,
-    fetchPlantsByCategory,
-  } = usePlantStore();
+  const [filteredPlants, setFilteredPlants] = useState<any[]>([]);
+  const {plants, isLoading, error, isFavorite, toggleFavorite, fetchPlants} =
+    usePlantStore();
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
   const {common} = useStyles();
@@ -37,6 +31,8 @@ const AllPlants: React.FC = () => {
   console.log('Plants data:', plants);
   console.log('Loading state:', isLoading);
   console.log('Error state:', error);
+  console.log('Selected category:', selectedCategory);
+  console.log('Filtered plants:', filteredPlants);
 
   // Get unique categories
   const categories = [
@@ -45,6 +41,19 @@ const AllPlants: React.FC = () => {
       ? [...new Set(plants.map(plant => plant.category))]
       : []),
   ];
+
+  // Filter plants based on category
+  const filterPlants = useCallback(() => {
+    if (!plants) return [];
+    if (selectedCategory === 'all') {
+      setFilteredPlants(plants);
+    } else {
+      const filtered = plants.filter(
+        plant => plant.category === selectedCategory,
+      );
+      setFilteredPlants(filtered);
+    }
+  }, [plants, selectedCategory]);
 
   // Fetch plants on mount
   useEffect(() => {
@@ -58,18 +67,14 @@ const AllPlants: React.FC = () => {
     loadPlants();
   }, [fetchPlants]);
 
+  // Update filtered plants when plants or category changes
+  useEffect(() => {
+    filterPlants();
+  }, [filterPlants, plants, selectedCategory]);
+
   // Handle category change
-  const handleCategoryChange = async (category: string) => {
+  const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    try {
-      if (category === 'all') {
-        await fetchPlants();
-      } else {
-        await fetchPlantsByCategory(category);
-      }
-    } catch (err) {
-      console.error('Error changing category:', err);
-    }
   };
 
   const handleItemPress = (plantId: number) => {
@@ -120,7 +125,7 @@ const AllPlants: React.FC = () => {
         </View>
       ) : (
         <FlatList
-          data={plants || []}
+          data={filteredPlants}
           numColumns={2}
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => (
@@ -147,7 +152,8 @@ const AllPlants: React.FC = () => {
           }
           contentContainerStyle={{
             paddingVertical: 10,
-            flexGrow: !plants || plants.length === 0 ? 1 : undefined,
+            flexGrow:
+              !filteredPlants || filteredPlants.length === 0 ? 1 : undefined,
           }}
         />
       )}
