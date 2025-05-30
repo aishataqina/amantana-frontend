@@ -93,7 +93,7 @@ const AllPlants: React.FC = () => {
   }
 
   return (
-    <View className="flex-1 py-8" style={common.container}>
+    <View className="flex-1 py-8" style={[common.container, {flex: 1}]}>
       {/* Header */}
       <View className="flex-row items-center justify-between p-3 mr-3">
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -103,7 +103,7 @@ const AllPlants: React.FC = () => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="py-2 px-4 h-16 fixed"
+          className="py-2 px-4 h-16"
           style={{borderBottomColor: colors.border}}
           contentContainerStyle={{paddingRight: 16}}>
           {categories.map(category => (
@@ -126,6 +126,7 @@ const AllPlants: React.FC = () => {
         </View>
       ) : (
         <FlatList
+          scrollEnabled={true}
           data={filteredPlants}
           numColumns={2}
           keyExtractor={item => item.id.toString()}

@@ -22,7 +22,7 @@ function WateringReminder() {
 
   return (
     <ScrollView className="flex-1" style={{backgroundColor: colors.background}}>
-      <View className="flex-1 min-h-screen py-5">
+      <View className="flex-1 py-5">
         {nextReminder && (
           <InfoBanner
             bgColor={isDarkMode ? 'bg-green-900' : 'bg-green-100'}

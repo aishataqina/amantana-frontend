@@ -65,10 +65,10 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
     }
   }, [initialQuery, handleSearch]);
 
-  const handleItemPress = (plantId: string) => {
+  const handleItemPress = (plantId: number) => {
     const plant = plants.find(p => p.id === plantId);
     if (plant) {
-      navigation.navigate('Detail', {plantId: plant.id});
+      navigation.navigate('Detail', {plantId: plantId.toString()});
     }
   };
 
@@ -90,11 +90,6 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
             style={{color: colors.textSecondary}}>
             Cari tanaman berdasarkan nama atau kategori
           </Text>
-          <Text
-            className="text-center mt-2"
-            style={{color: colors.textTertiary}}>
-            Contoh: "Monstera" atau "Indoor"
-          </Text>
         </View>
       );
     }
@@ -114,7 +109,7 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
     return (
       <FlatList
         data={results}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
           <PlantCard
             plant={item}

@@ -52,11 +52,6 @@ const PlantCard: React.FC<PlantCardProps> = ({
     return (
       <TouchableOpacity
         className="mx-4 my-2 rounded-xl overflow-hidden"
-        style={[
-          dynamicStyles.card,
-          isDarkMode ? darkShadow : lightShadow,
-          style,
-        ]}
         onPress={() => onPress(plant.id)}>
         <View className="flex-row items-center">
           <Image
@@ -96,15 +91,6 @@ const PlantCard: React.FC<PlantCardProps> = ({
               </Text>
             </View>
           </View>
-          {isFavorite && toggleFavorite && (
-            <TouchableOpacity className="p-2" onPress={handleFavoritePress}>
-              {isFavorite(plant.id) ? (
-                <Heart size={20} color="#FF0000" fill="#FF0000" />
-              ) : (
-                <Heart size={20} color={isDarkMode ? '#FFFFFF' : '#000000'} />
-              )}
-            </TouchableOpacity>
-          )}
         </View>
       </TouchableOpacity>
     );
