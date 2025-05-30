@@ -55,7 +55,9 @@ const PlantCard: React.FC<PlantCardProps> = ({
         onPress={() => onPress(plant.id)}>
         <View className="flex-row items-center">
           <Image
-            source={{uri: plant.image}}
+            source={{
+              uri: `http://10.0.2.2:8080/${plant.image}`,
+            }}
             className="w-[50] h-[50] rounded-xl"
             resizeMode="cover"
           />
@@ -132,7 +134,7 @@ const PlantCard: React.FC<PlantCardProps> = ({
             : 'rgba(249, 250, 251, 0.5)',
         }}>
         <Image
-          source={{uri: plant.image}}
+          source={{uri: `http://10.0.2.2:8080/${plant.image}`}}
           className="w-full h-[160px]"
           resizeMode="cover"
         />
