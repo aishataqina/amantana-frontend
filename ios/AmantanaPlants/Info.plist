@@ -54,5 +54,7 @@
 	<string>Amantana membutuhkan akses ke kamera untuk mengambil foto tanaman</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Amantana membutuhkan akses untuk menyimpan foto tanaman ke galeri</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Amantana membutuhkan akses ke dokumen untuk menyimpan foto tanaman</string>
 </dict>
 </plist>
