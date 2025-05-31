@@ -2,12 +2,13 @@ import axios from 'axios';
 import { Platform } from 'react-native';
 
 // Base URL API - Gunakan IP yang berbeda untuk Android
-const BASE_URL = Platform.select({
+export const BASE_URL = Platform.select({
   // android: 'http://192.168.1.6:8080', // Gunakan IP lokal untuk Android
   android: 'http://10.0.2.2:8080',
   ios: 'http://localhost:8080',
   default: 'http://localhost:8080',
 });
+
 
 console.log('API Base URL:', BASE_URL);
 console.log('Platform:', Platform.OS);
@@ -56,4 +57,4 @@ api.interceptors.response.use(
   },
 );
 
-export default api; 
+export default api;

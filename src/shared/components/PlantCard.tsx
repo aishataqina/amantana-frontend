@@ -5,6 +5,7 @@ import {Plant} from '../types/plant.types';
 import {useTheme} from '../theme/ThemeContext';
 import {getColors} from '../theme/colors';
 import {lightShadow, darkShadow} from '../utils/cardShadow';
+import {BASE_URL} from '../services/api.config';
 
 interface PlantCardProps {
   plant: Plant;
@@ -56,7 +57,7 @@ const PlantCard: React.FC<PlantCardProps> = ({
         <View className="flex-row items-center">
           <Image
             source={{
-              uri: `http://10.0.2.2:8080/${plant.image}`,
+              uri: `${BASE_URL}/${plant.image}`,
             }}
             className="w-[50] h-[50] rounded-xl"
             resizeMode="cover"
@@ -134,7 +135,7 @@ const PlantCard: React.FC<PlantCardProps> = ({
             : 'rgba(249, 250, 251, 0.5)',
         }}>
         <Image
-          source={{uri: `http://10.0.2.2:8080/${plant.image}`}}
+          source={{uri: `${BASE_URL}/${plant.image}`}}
           className="w-full h-[160px]"
           resizeMode="cover"
         />

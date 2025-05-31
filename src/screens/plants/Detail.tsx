@@ -9,6 +9,7 @@ import {useTheme} from '@/shared/theme/ThemeContext';
 import {getColors} from '@/shared/theme/colors';
 import {useStyles} from '@/shared/theme/styles';
 import {Button} from '@/shared/components/Button';
+import {BASE_URL} from '@/shared/services/api.config';
 
 const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
   const {plantId} = route.params;
@@ -62,7 +63,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
     <View className="flex-1" style={common.container}>
       <ScrollView className="flex-1">
         <Image
-          source={{uri: plant.image}}
+          source={{uri: `${BASE_URL}/${plant.image}`}}
           className="w-screen h-[300px] rounded-b-2xl"
           resizeMode="cover"
           style={lightShadow}
