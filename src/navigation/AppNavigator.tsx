@@ -10,6 +10,8 @@ import SearchResult from '../screens/plants/SearchResult';
 import AllPlants from '../screens/plants/AllPlants';
 import ThemedStatusBar from '../shared/components/ThemedStatusBar';
 import AddPlant from '@/screens/plants/AddPlantScreen';
+import {TouchableOpacity} from 'react-native';
+import {ArrowLeft} from 'lucide-react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -29,17 +31,27 @@ export const AppNavigator = () => {
           <Stack.Screen
             name="Detail"
             component={DetailScreen}
-            options={{
+            options={({navigation}) => ({
               title: 'Detail Tanaman',
               headerShown: true,
               headerStyle: {
                 backgroundColor: headerStyle.backgroundColor,
               },
               headerTintColor: headerStyle.headerTintColor,
-              headerTitleStyle: headerStyle.headerTitleStyle,
-              headerTitleAlign: headerStyle.headerTitleAlign,
+              headerTitleStyle: {
+                ...headerStyle.headerTitleStyle,
+                textAlign: 'center',
+              },
+              headerTitleAlign: 'center',
               headerShadowVisible: headerStyle.headerShadowVisible,
-            }}
+              headerLeft: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  style={{marginLeft: 8}}>
+                  <ArrowLeft size={24} color={headerStyle.headerTintColor} />
+                </TouchableOpacity>
+              ),
+            })}
           />
           <Stack.Screen
             name="SearchResult"

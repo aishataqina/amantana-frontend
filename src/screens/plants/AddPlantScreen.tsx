@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Alert} from 'react-native';
+import {SafeAreaView, Alert} from 'react-native';
 import PlantForm from '../../shared/components/PlantForm';
 import {useTheme} from '../../shared/theme/ThemeContext';
 import {getColors} from '../../shared/theme/colors';
@@ -37,16 +37,11 @@ const AddPlantScreen: React.FC = () => {
 
   return (
     <SafeAreaView
-      style={[styles.container, {backgroundColor: colors.background}]}>
+      className="flex-1"
+      style={{backgroundColor: colors.background}}>
       <PlantForm onSubmit={handleSubmit} />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default AddPlantScreen;

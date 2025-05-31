@@ -158,8 +158,8 @@ export async function createTestNotification(delaySeconds: number = 5) {
     await notifee.createTriggerNotification(
       {
         id: 'test-notification',
-        title: 'Test Pengingat Penyiraman',
-        body: 'Ini adalah notifikasi test untuk pengingat penyiraman tanaman.',
+        title: 'Siram Dulu, Baru Santai 😄',
+        body: 'anamanmu nunggu guyuran kasih sayang 💦🌸',
         android: {
           channelId: 'watering-reminders',
           // Suara dikonfigurasi di channel

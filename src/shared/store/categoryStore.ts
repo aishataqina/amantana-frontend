@@ -43,14 +43,14 @@ export const useCategoryStore = create<CategoryStore>()((set, _get) => ({
 function getCategoryIcon(category: string): string {
   switch (category.toLowerCase()) {
     case 'tanaman hias':
-      return 'leaf';
+      return 'flower';
     case 'tanaman buah':
-      return 'sun';
+      return 'apple';
     case 'tanaman obat':
-      return 'droplets';
+      return 'pill';
     case 'tanaman pangan':
-      return 'wind';
+      return 'wheat';
     default:
-      return 'leaf';
+      return 'leafy';
   }
 }

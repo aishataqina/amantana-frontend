@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  StyleSheet,
 } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useTheme} from '@/shared/theme/ThemeContext';
+import {getColors} from '@/shared/theme/colors';
 
 interface PlantFormData {
   image: any;
@@ -26,6 +27,8 @@ interface PlantFormData {
 }
 
 const AddPlantForm = () => {
+  const {isDarkMode} = useTheme();
+  const colors = getColors(isDarkMode);
   const [formData, setFormData] = useState<PlantFormData>({
     image: null,
     name: '',
@@ -111,93 +114,169 @@ const AddPlantForm = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Text style={styles.title}>Tambah Tanaman Baru</Text>
+    <SafeAreaView
+      className="flex-1"
+      style={{backgroundColor: colors.background}}>
+      <ScrollView className="p-4">
+        <Text
+          className="text-2xl font-bold mb-5 text-center"
+          style={{color: colors.text}}>
+          Tambah Tanaman Baru
+        </Text>
 
         {/* Image Picker */}
         <TouchableOpacity
-          style={styles.imagePickerButton}
+          className="h-[200px] border rounded-lg mb-4 justify-center items-center"
+          style={{borderColor: colors.border}}
           onPress={handleImagePick}>
           {imagePreview ? (
-            <Image source={{uri: imagePreview}} style={styles.imagePreview} />
+            <Image
+              source={{uri: imagePreview}}
+              className="w-full h-full rounded-lg"
+            />
           ) : (
-            <Text>Pilih Gambar</Text>
+            <Text style={{color: colors.textSecondary}}>Pilih Gambar</Text>
           )}
         </TouchableOpacity>
 
         {/* Name Input */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nama Tanaman</Text>
+        <View className="mb-4">
+          <Text
+            className="text-base font-medium mb-2"
+            style={{color: colors.text}}>
+            Nama Tanaman
+          </Text>
           <TextInput
-            style={styles.input}
+            className="border rounded-lg p-3 text-base"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+            }}
             value={formData.name}
             onChangeText={text => setFormData({...formData, name: text})}
             placeholder="Masukkan nama tanaman"
+            placeholderTextColor={colors.textSecondary}
           />
         </View>
 
         {/* Category Input */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Kategori</Text>
+        <View className="mb-4">
+          <Text
+            className="text-base font-medium mb-2"
+            style={{color: colors.text}}>
+            Kategori
+          </Text>
           <TextInput
-            style={styles.input}
+            className="border rounded-lg p-3 text-base"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+            }}
             value={formData.category}
             onChangeText={text => setFormData({...formData, category: text})}
             placeholder="Masukkan kategori tanaman"
+            placeholderTextColor={colors.textSecondary}
           />
         </View>
 
         {/* Difficulty Input */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Tingkat Kesulitan</Text>
+        <View className="mb-4">
+          <Text
+            className="text-base font-medium mb-2"
+            style={{color: colors.text}}>
+            Tingkat Kesulitan
+          </Text>
           <TextInput
-            style={styles.input}
+            className="border rounded-lg p-3 text-base"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+            }}
             value={formData.difficulty}
             onChangeText={text => setFormData({...formData, difficulty: text})}
             placeholder="Mudah/Sedang/Sulit"
+            placeholderTextColor={colors.textSecondary}
           />
         </View>
 
         {/* Description Input */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Deskripsi</Text>
+        <View className="mb-4">
+          <Text
+            className="text-base font-medium mb-2"
+            style={{color: colors.text}}>
+            Deskripsi
+          </Text>
           <TextInput
-            style={[styles.input, styles.textArea]}
+            className="border rounded-lg p-3 text-base h-[100px]"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+              textAlignVertical: 'top',
+            }}
             value={formData.description}
             onChangeText={text => setFormData({...formData, description: text})}
             placeholder="Masukkan deskripsi tanaman"
+            placeholderTextColor={colors.textSecondary}
             multiline
             numberOfLines={4}
           />
         </View>
 
         {/* Benefits Input */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Manfaat</Text>
-          <View style={styles.benefitsContainer}>
+        <View className="mb-4">
+          <Text
+            className="text-base font-medium mb-2"
+            style={{color: colors.text}}>
+            Manfaat
+          </Text>
+          <View className="flex-row items-center">
             <TextInput
-              style={styles.input}
+              className="flex-1 border rounded-lg p-3 text-base"
+              style={{
+                borderColor: colors.border,
+                backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+                color: colors.text,
+              }}
               value={benefitInput}
               onChangeText={setBenefitInput}
               placeholder="Tambah manfaat"
+              placeholderTextColor={colors.textSecondary}
             />
-            <TouchableOpacity style={styles.addButton} onPress={addBenefit}>
-              <Text style={styles.addButtonText}>+</Text>
+            <TouchableOpacity
+              className="w-10 h-10 rounded-full justify-center items-center ml-2"
+              style={{backgroundColor: colors.primary}}
+              onPress={addBenefit}>
+              <Text className="text-white text-2xl">+</Text>
             </TouchableOpacity>
           </View>
           {formData.benefits.map((benefit, index) => (
-            <Text key={index} style={styles.benefitItem}>
+            <Text
+              key={index}
+              className="text-base mt-2"
+              style={{color: colors.text}}>
               • {benefit}
             </Text>
           ))}
         </View>
 
         {/* Care Inputs */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Perawatan</Text>
+        <View className="mb-4">
+          <Text
+            className="text-base font-medium mb-2"
+            style={{color: colors.text}}>
+            Perawatan
+          </Text>
           <TextInput
-            style={styles.input}
+            className="border rounded-lg p-3 text-base mb-2"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+            }}
             value={formData.care.watering}
             onChangeText={text =>
               setFormData({
@@ -206,9 +285,15 @@ const AddPlantForm = () => {
               })
             }
             placeholder="Penyiraman"
+            placeholderTextColor={colors.textSecondary}
           />
           <TextInput
-            style={styles.input}
+            className="border rounded-lg p-3 text-base mb-2"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+            }}
             value={formData.care.sunlight}
             onChangeText={text =>
               setFormData({
@@ -217,9 +302,15 @@ const AddPlantForm = () => {
               })
             }
             placeholder="Pencahayaan"
+            placeholderTextColor={colors.textSecondary}
           />
           <TextInput
-            style={styles.input}
+            className="border rounded-lg p-3 text-base"
+            style={{
+              borderColor: colors.border,
+              backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+              color: colors.text,
+            }}
             value={formData.care.temperature}
             onChangeText={text =>
               setFormData({
@@ -228,96 +319,21 @@ const AddPlantForm = () => {
               })
             }
             placeholder="Suhu"
+            placeholderTextColor={colors.textSecondary}
           />
         </View>
 
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Simpan</Text>
+        <TouchableOpacity
+          className="p-3 rounded-lg items-center mt-2"
+          style={{backgroundColor: colors.primary}}
+          onPress={handleSubmit}>
+          <Text className="text-white font-bold">
+            Test Notifikasi (5 detik)
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  inputContainer: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-    fontWeight: '500',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-  },
-  textArea: {
-    height: 100,
-    textAlignVertical: 'top',
-  },
-  imagePickerButton: {
-    height: 200,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    marginBottom: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imagePreview: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-  },
-  benefitsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  addButton: {
-    backgroundColor: '#007AFF',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 8,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontSize: 24,
-  },
-  benefitItem: {
-    fontSize: 16,
-    marginTop: 8,
-  },
-  submitButton: {
-    backgroundColor: '#007AFF',
-    padding: 16,
-    borderRadius: 8,
-    marginTop: 20,
-    marginBottom: 40,
-  },
-  submitButtonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
 
 export default AddPlantForm;

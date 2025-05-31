@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import {Leaf, Droplets, Sun, Wind} from 'lucide-react-native';
+import {Flower2, Apple, Pill, Wheat, LeafyGreen} from 'lucide-react-native';
 import {useTheme} from '../theme/ThemeContext';
 import {getColors} from '../theme/colors';
 import {useStyles} from '../theme/styles';
@@ -17,10 +17,11 @@ import {usePlantStore} from '../store/plantStore';
 const windowWidth = Dimensions.get('window').width;
 
 const ICONS: {[key: string]: React.ComponentType<any>} = {
-  leaf: Leaf,
-  droplets: Droplets,
-  sun: Sun,
-  wind: Wind,
+  flower: Flower2,
+  apple: Apple,
+  pill: Pill,
+  wheat: Wheat,
+  leafy: LeafyGreen,
 };
 
 interface CategoryCardProps {
@@ -41,7 +42,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = () => {
   }, [getCategories, isLoading]);
 
   const renderCategoryItem = (category: CategoryCount) => {
-    const IconComponent = ICONS[category.icon] || Leaf;
+    const IconComponent = ICONS[category.icon] || Flower2;
 
     return (
       <View

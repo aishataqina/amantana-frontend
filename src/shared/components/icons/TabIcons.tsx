@@ -10,7 +10,7 @@ interface TabIconProps {
 export const HomeIcon: React.FC<TabIconProps> = ({color, size}) => {
   return (
     <View>
-      <Home size={size} color={color} fill={color} />
+      <Home size={size} color={color} />
     </View>
   );
 };
@@ -18,7 +18,7 @@ export const HomeIcon: React.FC<TabIconProps> = ({color, size}) => {
 export const FavoritesIcon: React.FC<TabIconProps> = ({color, size}) => {
   return (
     <View>
-      <Heart size={size} color={color} fill={color} />
+      <Heart size={size} color={color} />
     </View>
   );
 };
@@ -26,7 +26,7 @@ export const FavoritesIcon: React.FC<TabIconProps> = ({color, size}) => {
 export const RemindersIcon: React.FC<TabIconProps> = ({color, size}) => {
   return (
     <View>
-      <Droplets size={size} color={color} fill={color} />
+      <Droplets size={size} color={color} />
     </View>
   );
 };

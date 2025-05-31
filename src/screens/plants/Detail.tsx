@@ -168,7 +168,7 @@ const DetailScreen: React.FC<DetailScreenProps> = ({route}) => {
       </ScrollView>
 
       {/* Favorite Button */}
-      <View className="px-5 pb-6">
+      <View className="px-6 mb-4 pb-6">
         <Button
           variant={isFavorite(parseInt(plantId)) ? 'secondary' : 'primary'}
           onPress={() => toggleFavorite(parseInt(plantId))}

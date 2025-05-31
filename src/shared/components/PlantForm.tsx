@@ -1,17 +1,20 @@
-import {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
   Alert,
+  Image as RNImage,
 } from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {useTheme} from '../theme/ThemeContext';
 import {getColors} from '../theme/colors';
+import {Image} from 'lucide-react-native';
+import {useCategoryStore} from '../store/categoryStore';
+
 interface PlantFormProps {
   onSubmit: (formData: FormData) => void;
 }
@@ -19,6 +22,12 @@ interface PlantFormProps {
 const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
   const {isDarkMode} = useTheme();
   const colors = getColors(isDarkMode);
+  const categories = useCategoryStore(state => state.categories);
+  const getCategories = useCategoryStore(state => state.getCategories);
+
+  useEffect(() => {
+    getCategories();
+  }, [getCategories]);
 
   const [formState, setFormState] = useState({
     name: '',
@@ -35,19 +44,16 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
     image: null as any,
   });
 
-  const [imageFileName, setImageFileName] = useState<string>('');
-
   const difficultyOptions = [
     {key: 'Mudah', value: 'Mudah'},
     {key: 'Sedang', value: 'Sedang'},
     {key: 'Sulit', value: 'Sulit'},
   ];
 
-  const categoryOptions = [
-    {key: 'Tanaman Obat', value: 'Tanaman Obat'},
-    {key: 'Tanaman Hias', value: 'Tanaman Hias'},
-    {key: 'Tanaman Buah', value: 'Tanaman Buah'},
-  ];
+  const categoryOptions = categories.map(category => ({
+    key: category.name,
+    value: category.name,
+  }));
 
   const handleImagePick = async () => {
     const options: ImagePicker.ImageLibraryOptions = {
@@ -71,7 +77,6 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
       } else if (response.assets && response.assets[0]) {
         const selectedImage = response.assets[0];
         setFormState({...formState, image: selectedImage});
-        setImageFileName(selectedImage.fileName || 'image.jpg');
       }
     });
   };
@@ -118,24 +123,74 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
       },
       image: null,
     });
-    setImageFileName('');
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>Foto Tanaman</Text>
-        <TouchableOpacity style={styles.imageButton} onPress={handleImagePick}>
-          <Text style={styles.imageButtonText}>
-            {imageFileName || 'Pilih Gambar'}
-          </Text>
-        </TouchableOpacity>
+    <ScrollView
+      className="flex-1 p-4"
+      style={{backgroundColor: colors.background}}>
+      <View
+        className="p-6 mb-4 rounded-xl"
+        style={{backgroundColor: colors.card}}>
+        <View
+          className="w-full min-h-[200px] border-2 border-dashed rounded-xl items-center justify-center p-6"
+          style={{
+            borderColor: isDarkMode ? colors.border : '#E2E8F0',
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+          }}>
+          {formState.image ? (
+            <View className="w-full items-center">
+              <RNImage
+                source={{uri: formState.image.uri}}
+                className="w-full h-[200px] rounded-lg mb-4"
+                resizeMode="cover"
+              />
+              <TouchableOpacity
+                className="px-6 py-3 rounded-lg"
+                style={{backgroundColor: colors.primary}}
+                onPress={handleImagePick}>
+                <Text className="text-white font-semibold text-base">
+                  Ganti Foto
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <>
+              <Image size={48} color={colors.textSecondary} className="mb-3" />
+              <Text
+                style={{color: colors.textSecondary}}
+                className="text-base mb-4">
+                Upload foto tanaman
+              </Text>
+              <TouchableOpacity
+                className="px-6 py-3 rounded-lg"
+                style={{backgroundColor: colors.primary}}
+                onPress={handleImagePick}>
+                <Text className="text-white font-semibold text-base">
+                  Pilih Foto
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
       </View>
 
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>Nama Tanaman</Text>
+      <View
+        className="rounded-xl p-4 mb-4"
+        style={{backgroundColor: colors.card}}>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Nama Tanaman
+        </Text>
         <TextInput
-          style={[styles.input, {color: colors.text}]}
+          className="rounded-lg p-3"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.name}
           onChangeText={text => setFormState({...formState, name: text})}
           placeholder="Masukkan nama tanaman"
@@ -143,8 +198,14 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
         />
       </View>
 
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>Kategori</Text>
+      <View
+        className="rounded-xl p-4 mb-4"
+        style={{backgroundColor: colors.card}}>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Kategori
+        </Text>
         <SelectList
           setSelected={(val: string) =>
             setFormState({...formState, category: val})
@@ -152,14 +213,23 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
           data={categoryOptions}
           save="value"
           placeholder="Pilih kategori"
-          boxStyles={styles.dropdown}
+          boxStyles={{
+            borderWidth: 1,
+            borderColor: colors.border,
+            borderRadius: 8,
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+          }}
           inputStyles={{color: colors.text}}
           dropdownTextStyles={{color: colors.text}}
         />
       </View>
 
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>
+      <View
+        className="rounded-xl p-4 mb-4"
+        style={{backgroundColor: colors.card}}>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
           Tingkat Kesulitan
         </Text>
         <SelectList
@@ -169,44 +239,89 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
           data={difficultyOptions}
           save="value"
           placeholder="Pilih tingkat kesulitan"
-          boxStyles={styles.dropdown}
+          boxStyles={{
+            borderWidth: 1,
+            borderColor: colors.border,
+            borderRadius: 8,
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+          }}
           inputStyles={{color: colors.text}}
           dropdownTextStyles={{color: colors.text}}
         />
       </View>
 
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>Deskripsi</Text>
+      <View
+        className="rounded-xl p-4 mb-4"
+        style={{backgroundColor: colors.card}}>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Deskripsi
+        </Text>
         <TextInput
-          style={[styles.input, styles.textArea, {color: colors.text}]}
+          className="rounded-lg p-3 h-[100px]"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.description}
           onChangeText={text => setFormState({...formState, description: text})}
           placeholder="Masukkan deskripsi tanaman"
           placeholderTextColor={colors.textSecondary}
           multiline
-          numberOfLines={4}
+          textAlignVertical="top"
         />
       </View>
 
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>Manfaat</Text>
+      <View
+        className="rounded-xl p-4 mb-4"
+        style={{backgroundColor: colors.card}}>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Manfaat
+        </Text>
         <TextInput
-          style={[styles.input, styles.textArea, {color: colors.text}]}
+          className="rounded-lg p-3 h-[100px]"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.benefits}
           onChangeText={text => setFormState({...formState, benefits: text})}
           placeholder="Masukkan manfaat tanaman"
           placeholderTextColor={colors.textSecondary}
           multiline
-          numberOfLines={4}
+          textAlignVertical="top"
         />
       </View>
 
-      <View style={styles.formGroup}>
-        <Text style={[styles.label, {color: colors.text}]}>Cara Perawatan</Text>
+      <View
+        className="rounded-xl p-4 mb-4"
+        style={{backgroundColor: colors.card}}>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Cara Perawatan
+        </Text>
 
-        <Text style={[styles.label, {color: colors.text}]}>Penyiraman</Text>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Penyiraman
+        </Text>
         <TextInput
-          style={[styles.input, {color: colors.text}]}
+          className="rounded-lg p-3 mb-4"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.care.watering}
           onChangeText={text =>
             setFormState({
@@ -218,9 +333,19 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
           placeholderTextColor={colors.textSecondary}
         />
 
-        <Text style={[styles.label, {color: colors.text}]}>Sinar Matahari</Text>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Sinar Matahari
+        </Text>
         <TextInput
-          style={[styles.input, {color: colors.text}]}
+          className="rounded-lg p-3 mb-4"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.care.sunlight}
           onChangeText={text =>
             setFormState({
@@ -232,9 +357,19 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
           placeholderTextColor={colors.textSecondary}
         />
 
-        <Text style={[styles.label, {color: colors.text}]}>Suhu</Text>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Suhu
+        </Text>
         <TextInput
-          style={[styles.input, {color: colors.text}]}
+          className="rounded-lg p-3 mb-4"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.care.temperature}
           onChangeText={text =>
             setFormState({
@@ -246,9 +381,19 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
           placeholderTextColor={colors.textSecondary}
         />
 
-        <Text style={[styles.label, {color: colors.text}]}>Tanah</Text>
+        <Text
+          style={{color: colors.text}}
+          className="text-base font-medium mb-2">
+          Tanah
+        </Text>
         <TextInput
-          style={[styles.input, {color: colors.text}]}
+          className="rounded-lg p-3"
+          style={{
+            backgroundColor: isDarkMode ? colors.card : '#F7FAFC',
+            borderWidth: 1,
+            borderColor: colors.border,
+            color: colors.text,
+          }}
           value={formState.care.soil}
           onChangeText={text =>
             setFormState({...formState, care: {...formState.care, soil: text}})
@@ -258,72 +403,14 @@ const PlantForm: React.FC<PlantFormProps> = ({onSubmit}) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Simpan</Text>
+      <TouchableOpacity
+        className="p-4 rounded-lg items-center mt-6 mb-10"
+        style={{backgroundColor: colors.primary}}
+        onPress={handleSubmit}>
+        <Text className="text-white font-semibold text-lg">Simpan</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 24,
-  },
-  formGroup: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-    fontWeight: '500',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#F7FAFC',
-  },
-  textArea: {
-    height: 100,
-    textAlignVertical: 'top',
-  },
-  dropdown: {
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 8,
-    backgroundColor: '#F7FAFC',
-  },
-  imageButton: {
-    backgroundColor: '#EDF2F7',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  imageButtonText: {
-    color: '#4A5568',
-    fontSize: 16,
-  },
-  submitButton: {
-    backgroundColor: '#48BB78',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 24,
-    marginBottom: 40,
-  },
-  submitButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 export default PlantForm;

@@ -128,25 +128,25 @@ const SearchResult: React.FC<{route: {params: RouteParams}}> = ({route}) => {
     <View className="flex-1" style={common.container}>
       {/* Header */}
       <View
-        className="flex-row items-center px-3 pt-10 pb-3 justify-between"
+        className="flex-row items-center px-3 pt-10 h-32 justify-between"
         style={[
           common.header,
           {backgroundColor: isDarkMode ? colors.card : colors.borderLight},
         ]}>
-        <View className="flex-row items-center">
+        <View className="flex-row items-center mt-6">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             className="mr-3">
             <ArrowLeft size={24} color={colors.text} />
           </TouchableOpacity>
           <View
-            className="flex-1 rounded-full px-3  flex-row items-center"
+            className="flex-1 rounded-full px-3 flex-row items-center "
             style={{
               backgroundColor: isDarkMode ? colors.borderLight : colors.card,
             }}>
             <Search size={20} color={colors.textTertiary} />
             <TextInput
-              className="flex-1 ml-2 text-base"
+              className="flex-1 ml-2 text-base h-12 "
               placeholder="Cari tanaman"
               value={searchQuery}
               onChangeText={handleSearch}

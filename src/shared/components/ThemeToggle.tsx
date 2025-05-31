@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useTheme} from '../theme/ThemeContext';
 import {Sun, Moon} from 'lucide-react-native';
 import {getColors} from '../theme/colors';
@@ -15,10 +15,10 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({size = 24, style}) => {
 
   return (
     <TouchableOpacity
+      className="w-10 h-10 rounded-full items-center justify-center"
       style={[
-        styles.container,
         {
-          backgroundColor: isDarkMode ? colors.card : colors.borderLight,
+          backgroundColor: isDarkMode ? colors.border : colors.borderLight,
         },
         style,
       ]}
@@ -32,15 +32,5 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({size = 24, style}) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default ThemeToggle;

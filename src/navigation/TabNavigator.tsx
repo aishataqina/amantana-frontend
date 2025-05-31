@@ -5,14 +5,10 @@ import FavoritesScreen from '../screens/favorites/Favorites';
 import WateringReminder from '../screens/reminders/WateringReminder';
 import AddPlant from '../screens/plants/AddPlantScreen';
 import {useTheme} from '../shared/theme/ThemeContext';
-import {
-  HomeIcon,
-  FavoritesIcon,
-  RemindersIcon,
-  AddPlantIcon,
-} from '../shared/components/icons/TabIcons';
+import {HomeIcon, FavoritesIcon} from '../shared/components/icons/TabIcons';
 import {createNavigationConfig} from './navigationConfig';
 import ThemeToggle from '../shared/components/ThemeToggle';
+import {BellRing, FilePlus2} from 'lucide-react-native';
 
 type TabParamList = {
   HomeTab: undefined;
@@ -49,7 +45,9 @@ export const TabNavigator = () => {
           title: 'Amantana',
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => <HomeIcon color={color} size={size} />,
-          headerRight: () => <ThemeToggle style={{marginRight: 16}} />,
+          headerRight: () => (
+            <ThemeToggle style={{marginRight: 16, marginBottom: 6}} />
+          ),
         }}
       />
       <Tab.Screen
@@ -70,7 +68,7 @@ export const TabNavigator = () => {
           title: 'Tambah Tanaman',
           tabBarLabel: 'Tambah',
           tabBarIcon: ({color, size}) => (
-            <AddPlantIcon color={color} size={size} />
+            <FilePlus2 color={color} size={size} />
           ),
         }}
       />
@@ -80,9 +78,7 @@ export const TabNavigator = () => {
         options={{
           title: 'Pengingat',
           tabBarLabel: 'Pengingat',
-          tabBarIcon: ({color, size}) => (
-            <RemindersIcon color={color} size={size} />
-          ),
+          tabBarIcon: ({color, size}) => <BellRing color={color} size={size} />,
         }}
       />
     </Tab.Navigator>
