@@ -103,7 +103,7 @@ const AllPlants: React.FC = () => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className="py-2 px-4 h-16"
+          className="py-4 px-4 h-20"
           style={{borderBottomColor: colors.border}}
           contentContainerStyle={{paddingRight: 16}}>
           {categories.map(category => (

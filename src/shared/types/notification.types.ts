@@ -18,4 +18,4 @@ export type NotificationConfig = {
   channelId: string;
   title: string;
   body: string;
-}; 
+};

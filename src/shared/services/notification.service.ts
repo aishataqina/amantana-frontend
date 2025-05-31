@@ -172,8 +172,8 @@ export async function createTestNotification(delaySeconds: number = 5) {
     await notifee.createTriggerNotification(
       {
         id: 'test-notification',
-        title: 'Test Pengingat Penyiraman',
-        body: 'Ini adalah notifikasi test untuk pengingat penyiraman tanaman.',
+        title: 'Siram Dulu, Baru Santai 😄',
+        body: 'Tanamanmu nunggu guyuran kasih sayang 💦🌸',
         ios: {
           sound: 'default',
           critical: true,
@@ -199,4 +199,47 @@ export function setupNotificationListeners(callback?: (type: any, detail: any) =
   });
 
   return unsubscribe;
+}
+
+/**
+ * Meminta izin notifikasi dari pengguna
+ */
+export async function requestNotificationPermission() {
+  try {
+    const settings = await notifee.requestPermission();
+    
+    if (settings.authorizationStatus) {
+      console.log('Izin notifikasi diberikan');
+      return true;
+    } else {
+      console.log('Izin notifikasi ditolak');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error saat meminta izin notifikasi:', error);
+    return false;
+  }
+}
+
+/**
+ * Setup awal notifikasi
+ */
+export async function initializeNotifications() {
+  try {
+    // Minta izin notifikasi
+    const hasPermission = await requestNotificationPermission();
+    if (!hasPermission) {
+      console.log('Tidak dapat menginisialisasi notifikasi: izin ditolak');
+      return false;
+    }
+
+    // Buat channel notifikasi
+    await createNotificationChannel();
+    
+    console.log('Notifikasi berhasil diinisialisasi');
+    return true;
+  } catch (error) {
+    console.error('Error saat inisialisasi notifikasi:', error);
+    return false;
+  }
 }

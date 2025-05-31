@@ -97,8 +97,16 @@ export const useNotification = () => {
 
   // Setup notifikasi saat komponen dimuat
   useEffect(() => {
-    NotificationService.createNotificationChannel();
-    loadWateringTimes();
+    const initNotifications = async () => {
+      const initialized = await NotificationService.initializeNotifications();
+      if (initialized) {
+        loadWateringTimes();
+      } else {
+        console.warn('Notifikasi tidak dapat diinisialisasi');
+      }
+    };
+
+    initNotifications();
 
     // Listen for foreground notifications
     const unsubscribe = NotificationService.setupNotificationListeners();
