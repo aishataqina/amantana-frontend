@@ -3,11 +3,13 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/home/Home';
 import FavoritesScreen from '../screens/favorites/Favorites';
 import WateringReminder from '../screens/reminders/WateringReminder';
+import AddPlant from '../screens/plants/AddPlantScreen';
 import {useTheme} from '../shared/theme/ThemeContext';
 import {
   HomeIcon,
   FavoritesIcon,
   RemindersIcon,
+  AddPlantIcon,
 } from '../shared/components/icons/TabIcons';
 import {createNavigationConfig} from './navigationConfig';
 import ThemeToggle from '../shared/components/ThemeToggle';
@@ -16,6 +18,7 @@ type TabParamList = {
   HomeTab: undefined;
   Favorites: undefined;
   Reminders: undefined;
+  AddPlant: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -57,6 +60,17 @@ export const TabNavigator = () => {
           tabBarLabel: 'Favorit',
           tabBarIcon: ({color, size}) => (
             <FavoritesIcon color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AddPlant"
+        component={AddPlant}
+        options={{
+          title: 'Tambah Tanaman',
+          tabBarLabel: 'Tambah',
+          tabBarIcon: ({color, size}) => (
+            <AddPlantIcon color={color} size={size} />
           ),
         }}
       />

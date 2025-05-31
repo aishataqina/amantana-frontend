@@ -9,6 +9,7 @@ import DetailScreen from '../screens/plants/Detail';
 import SearchResult from '../screens/plants/SearchResult';
 import AllPlants from '../screens/plants/AllPlants';
 import ThemedStatusBar from '../shared/components/ThemedStatusBar';
+import AddPlant from '@/screens/plants/AddPlantScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,6 +53,20 @@ export const AppNavigator = () => {
             component={AllPlants}
             options={{
               headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AddPlant"
+            component={AddPlant}
+            options={{
+              title: 'Tambah Tanaman',
+              headerStyle: {
+                backgroundColor: '#48BB78',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
             }}
           />
         </Stack.Navigator>

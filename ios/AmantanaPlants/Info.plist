@@ -48,5 +48,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Amantana membutuhkan akses ke galeri foto untuk memilih gambar tanaman</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Amantana membutuhkan akses ke kamera untuk mengambil foto tanaman</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Amantana membutuhkan akses untuk menyimpan foto tanaman ke galeri</string>
 </dict>
 </plist>

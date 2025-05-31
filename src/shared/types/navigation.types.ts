@@ -9,6 +9,7 @@ export type RootStackParamList = {
   SearchResult: { searchQuery: string };
   AllPlants: undefined;
   Reminders: undefined;
+  AddPlant: undefined;
 };
 
 // Define the param list untuk Tab Navigator
