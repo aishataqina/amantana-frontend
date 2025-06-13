@@ -1,4 +1,4 @@
-package com.amantanaplants
+package com.plantify
 
 import android.app.Application
 import com.facebook.react.PackageList

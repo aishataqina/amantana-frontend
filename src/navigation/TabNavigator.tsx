@@ -42,7 +42,7 @@ export const TabNavigator = () => {
         name="HomeTab"
         component={HomeScreen}
         options={{
-          title: 'Amantana',
+          title: 'Plantify',
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => <HomeIcon color={color} size={size} />,
           headerRight: () => (
